@@ -36,4 +36,4 @@ Hola, este es el  **Gitlab**/**Github** de **Toni Jordà**. En este espacio subo
  4| sudo apt-get install sublime-text
  ```
 
-
+![wallpaper Python](https://wallpapercave.com/dwp1x/wp7685924.jpg)
