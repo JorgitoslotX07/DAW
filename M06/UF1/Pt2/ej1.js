@@ -36,5 +36,8 @@ var personaje2 = new personatge(
     'hacer algo'
 );
 
+console.log('personaje1');
 personaje1.listar();
+
+console.log('personaje2');
 personaje2.listar();
