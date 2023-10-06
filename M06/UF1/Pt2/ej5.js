@@ -3,21 +3,8 @@ function euromillon(numeros, estrellas){
     this.estrellas = ordenarLista(estrellas);
 }
 
-/*
-function eliminarEspacios(lista) {
-    for (var i = lista.length -1; i != 0; i--) {
-        if (lista[i] == ''){
-            lista.splice(i, 1)
-        }
-    }
-    return lista
-}
-*/
-
 function eliminarDuplicados(lista){
     lista.filter((valor,index)=>{
-        // console.log('item -> ' + valor);
-        // console.log('index -> ' +index);
         return lista.indexOf(valor) === index;
     })
     return lista;
@@ -35,8 +22,7 @@ function generarNumerosNoRepetidos(cantidad, min = 1, max = 100){
     let numeros = [];
     for(let i = 0; i < cantidad; i++){
         let numero = generarNumeros(min, max);
-
-        if (numero in numeros) {
+        if (numeros.includes(numero)) {
             i--;
         }
         else {
@@ -50,13 +36,55 @@ function getDatos(){
     let numerosUsuario = document.getElementById("numeros").value;
     let estrellasUsuario = document.getElementById("estrellas").value;
 
-    numerosUsuario = eliminarAgregados(numerosUsuario.trim().split(','));
-    estrellasUsuario = eliminarAgregados(estrellasUsuario.trim().split(','));
+    numerosUsuario = conversionNumber(eliminarAgregados(numerosUsuario.trim().split(',')));
+    estrellasUsuario = conversionNumber(eliminarAgregados(estrellasUsuario.trim().split(',')));
+
 
     validacionCantidadNumeros(5, numerosUsuario, 'numeros');
     validacionCantidadNumeros(2, estrellasUsuario, 'estrellas');
 
+    console.log(validacionNumeros(1, 50, numerosUsuario));
+    console.log(validacionNumeros(1, 12, estrellasUsuario));
+    if (validacionNumeros(1, 50, numerosUsuario)) {
+        numerosUsuario = [];
+    }
+    if (validacionNumeros(1, 12, estrellasUsuario)) {
+        estrellasUsuario = [];
+    }
+
     return new euromillon(numerosUsuario, estrellasUsuario);
+}
+
+function conversionNumber(listaNumerosStr = []) {
+    listaNumerosInt = [];
+
+    listaNumerosStr.forEach(data => {
+        data = parseInt(data, 10);
+        listaNumerosInt.push(data);
+    });
+
+    return listaNumerosInt;
+}
+
+function noSeRepite(lista, valor) {
+    const filtrado = lista.filter(item => item === valor);
+    return filtrado.length <= 1;
+  }
+
+function validacionNumeros(min = 0, max = 100 , listaNumeros = []) {
+    for (i = 0; i < listaNumeros.length; i++) {
+        if (listaNumeros[i] <= min || listaNumeros[i] >= max) {
+            alert("Todos numeros tiene que ser enteros y entre " + min + '-' + max); 
+            return true;
+        }
+        if (noSeRepite(listaNumeros, listaNumeros[i])) {
+            alert("No se pueden repetir los numeros introducidos"); 
+            console.log("No se pueden repetir los numeros introducidos");
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function validacionCantidadNumeros(cantidad, numeros, tipo = "numeros") {
@@ -88,12 +116,18 @@ function eliminarAgregados(palabras) {
 function validarDatos(){
     //iniciar crono
 
+    datosClave = this.datosClave;
     datosUsuario = getDatos();
-    datosClave = generarClave();
 
     console.log(datosClave);
     console.log(datosUsuario);
+
+
+
     let veri = document.getElementById("veri");
     veri.innerHTML = 'Numeros clave: ' + datosClave['numeros'] + '<br>' + 'Estrellas clave: ' + datosClave['estrellas'];
     //finalizar crono
 }
+
+datosClave = generarClave();
+console.log('Clave ganadora:\nNumeoros -> ' + datosClave['numeros'] + '\nEstrellas -> ' + datosClave['estrellas']);
