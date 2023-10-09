@@ -6,3 +6,4 @@ let result = lista1.filter((valor,index)=>{
     return lista1.indexOf(valor) === index;
 })
 console.log(result.sort(function(a,b){return a-b}));
+
