@@ -17,7 +17,7 @@ class pt1ej5 {
         else if (x == 2) {
             System.out.print("Indique los grados Celsius -->  ");
             float c = sc.nextFloat();
-            float f = 9 / 5 * c + 32;
+            float f = 9*c/5 + 32; //Vigila les fòrmules que encara que sembli que les enten correctament, pot fallar.
             System.out.println(f + " grados Fahrenheit");
         }
         else {

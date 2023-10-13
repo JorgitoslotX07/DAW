@@ -12,13 +12,14 @@ class pt1ej3 {
             float b = sc.nextFloat();
             System.out.print("Indique la altura -->  ");
             float h = sc.nextFloat();
-            System.out.println("El perimetro es: " + (b*2) * (h*2) + "\nLa area es: " + (b*h));
+            System.out.println("El perimetro es: " + (b*2) + (h*2) + "\nLa area es: " + (b*h)); //Estava malament el perímetre
         }
         else if (x == 2) {
             System.out.print("Indique el radio -->  ");
             float r = sc.nextFloat();
             System.out.println("El perimetro es: " + 2 * Math.PI * r + "\n La area es: " + Math.PI * Math.pow(r,2));
         }
+        //Faltaria opció 3 i calcular el volum de l'esfera.
         else {
             System.out.print("¡¡ERROR!! \nSelecione una de las opciones indicadas");
         }
