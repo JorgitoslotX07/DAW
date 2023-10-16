@@ -1,9 +1,9 @@
 package dawmainm03.M03.UF4.Pt2;
 
 public class Date {
-    private Integer dia;
-    private Integer mes;
-    private Integer any;
+    private Integer dia = 1;
+    private Integer mes = 1;
+    private Integer any = 2023;
 
     public Integer getDia() {
         return dia;
