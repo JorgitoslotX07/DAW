@@ -1,0 +1,74 @@
+/* * {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+} */
+
+@font-face {
+    font-family: 'AlquilineTwo';
+    src: url('../AquilineTwo.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'PirataOne';
+    src: url('../PirataOne.ttf') format('truetype');
+}
+
+
+body {
+    font-style: 'AlquilineTwo', cursive;
+    margin: 20px;
+    text-align: center;
+    
+} 
+
+
+h1 {
+    font-family: 'AlquilineTwo', cursive;
+    color: rgb(192, 0, 0);
+    font-size: 60px;
+}
+
+.pergamino {
+    background-image: url('../img/pergaminoSinFondo1.png');
+    /* background-size: 100%; */
+    background-size: 110%;
+    background-attachment: fixed; /* Fija la imagen de fondo en su posición */
+    background-repeat: no-repeat;
+    background-position: center;
+
+    /*padding-top: 10%;*/
+    text-align: center;
+}
+
+p {
+    font-family: 'PirataOne', cursive;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    margin: 20px 0;
+}
+
+p:last-child {
+    font-style: italic;
+}
+
+/* .espacio-top {
+    margin: 10%;
+} */
+
+.scrolling-div {
+    border: 1px solid #000; 
+
+    margin-left: 20%;
+    margin-right: 20%;
+    width: 60%; 
+    /* Establece el ancho del div según tus necesidades */
+    height: 20%; 
+    /* Establece la altura del div según tus necesidades */
+    /* Añade un borde para visualización */
+    overflow: auto; 
+    
+}
