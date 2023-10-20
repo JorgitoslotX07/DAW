@@ -8,31 +8,86 @@
         <h1>Inserción de vivienda</h1>
 
         <?php
+        $extras = [
+            'Piscina',
+            'Jardí',
+            'Garage'
+        ];
+
+        function vExtras($extras) {
+            for ($i = 0; $i < count($extras); $i++) {
+                if (isset($_POST[$extras[$i]])) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function rExtras($extras) {
+            $arr = "";
+            for ($i = 0; $i < count($extras); $i++) {
+                if (isset($_POST[$extras[$i]])) {
+                    if ($arr != "") {
+                        $arr = $arr . ', ';
+                    }
+                    $arr = $arr . $extras[$i];
+                }
+            }
+            return $arr;
+        }
+
         if (isset($_REQUEST['enviar'])) {
-            if (is_numeric($_POST["euros"])) {
-                $euros = $_POST["euros"];
-                $moneda = $_POST["moneda"];
-                $result = 0;
-                if ($moneda == "dolar") {
-                    $result = $euros * 1.325;
+            if (isset($_POST['tipoHabitatge']) && isset($_POST['zonaHabitatge']) && isset($_POST['direc'])
+                && isset($_POST['nDormitorios']) && isset($_POST['euros']) && isset($_POST['tamano'])) {
+
+                echo '<p>Estos son los datos introducidos</p>';
+                echo '<br>';
+                
+                echo '<ul>';
+                echo "<li>Tipo: {$_POST['tipoHabitatge']}</li>";
+                echo "<li>Zona: {$_POST['zonaHabitatge']}</li>";
+                echo "<li>Dirección: {$_POST['direc']}</li>";
+                echo "<li>Numero de dormitorios: {$_POST['nDormitorios']}</li>";
+                echo "<li>Precio: {$_POST['euros']}</li>";
+                echo "<li>Tamaño: {$_POST['tamano']}</li>";
+                if (vExtras($extras)) {
+                    echo "<li>Extras: " . rExtras($extras) . "</li>";
                 }
-                elseif ($moneda == "lliures") {
-                    $result = $euros * 0.927;
-                }
-                elseif ($moneda == "iens") {
-                    $result = $euros * 118.232;
-                }
-                elseif ($moneda == "francs") {
-                    $result = $euros * 1.515;
+                if (isset($_POST['observaciones']) && $_POST['observaciones'] != "") {
+                    echo "<li>Observaciones: {$_POST['observaciones']}</li>";
                 }
 
-                echo "{$euros} euros equivalen a {$result} {$moneda}";
+                echo '</ul>';
+
+                echo '<br>';
+                echo "<p>[ <a href='practica6b.php'>Insertar otra vivienda</a> ]</p>";
+
             }
             else {
-                echo "<p>Debe introducir una contidad</p>";
+
+                if (!isset($_POST['tipoHabitatge'])) {
+                    echo "";
+                }
+                if (!isset($_POST['zonaHabitatge'])) {
+                    echo "";
+                }
+                if (!isset($_POST['direc'])) {
+                    echo "";
+                }
+                if (!isset($_POST['nDormitorios'])) {
+                    echo "";
+                }
+                if (!isset($_POST['euros'])) {
+                    echo "";
+                }
+                if (!isset($_POST['tamano'])) {
+                    echo "";
+                }
+
+
+                echo "<p>[ <a href='practica6b.php'>Volver</a> ]</p>";
             }
 
-            echo "<p>( <a href='practica6a.php'>Volver al inicio</a> )</p>";
         }
         else {
 
@@ -60,64 +115,104 @@
 
             $nMinDormitorios = 1;
             $nMaxDormitarios = 5;
-
-            $extras = [
-                'Piscina',
-                'Jardí',
-                'Garage'
-            ];
         ?>       
 
         <p>Introduzca los datos de vivienda</p>
 
-        <form method="post" action="practica6a.php">
-            <label for="tipoHabitatge">Tipo de vivienda: </label>
-            <select name="tipoHabitatge" id="tipoHabitatge">
-                <?php
-                select($tipoHabitatge);
-                ?>
-            </select>
-            <br>
-            <label for="zonaHabitatge">Zona: </label>
-            <select name="zonaHabitatge" id="zonaHabitatge">
-                <?php
-                select($zonaHabitatge);
-                ?>
-            </select>
-            <br>
-            <label for="direc">Dirección: : </label>
-            <input type="text" name="direc" id="direc">
-            <br>
-            <label for="nDormitorios">Tipo de vivienda: </label>
-                <?php
-                for ($i = $nMinDormitorios; $i <= $nMaxDormitarios; $i++) {
-                    echo '<input type="radio" name"nDormitorios id="n' . $i . '">';
-                    echo '<label for="n' . $i . '">' . $i . '</label>';
-                }
-                ?>
-            <br>
-            <label for="euros">Precio: </label>
-            <input type="number" name="euros" id="euros">
-            <label for="euros">€</label>
-            <br>
-            <label for="tamano">Tamaño: </label>
-            <input type="number" name="tamano" id="tamano">
-            <br>
-            <label for="nDormitorios">Extras: </label>
-                <?php
-                for ($i = 0; $i < count($extras); $i++) {
-                    echo '<input type="checkbox" name="' . $extras[$i] 
-                    . '" id="' . $extras[$i] . '">';
-                    echo '<label for="' . $extras[$i] . '">' 
-                    . $extras[$i] . '</label>';
-                }
-                ?>
-            <br>
-            <label for="observaciones">Observaciones</label>
-            <textarea rows="10" cols="50" name="observaciones" id="observaciones">
-            </textarea>
-            <br>
-            <input type="submit" value="Convertir" name="enviar">
+        <br>
+        
+        <form method="post" action="practica6b.php">
+            <table style="border: solid blue; padding: 5px;">
+                <tr>
+                    <td>
+                        <label for="tipoHabitatge">Tipo de vivienda: </label>
+                    </td>
+                    <td>
+                        <select name="tipoHabitatge" id="tipoHabitatge">
+                            <?php
+                            select($tipoHabitatge);
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="zonaHabitatge">Zona: </label>
+                    </td>
+                    <td>
+                        <select name="zonaHabitatge" id="zonaHabitatge">
+                            <?php
+                            select($zonaHabitatge);
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="direc">Dirección: : </label>
+                    </td>
+                    <td>
+                        <input type="text" name="direc" id="direc">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="nDormitorios">Numero de dormitorios: </label>
+                    </td>
+                    <td>
+                        <?php
+                        for ($i = $nMinDormitorios; $i <= $nMaxDormitarios; $i++) {
+                            echo '<input type="radio" name="nDormitorios" id="n' . $i . '" value="'  . $i . '">';
+                            echo '<label for="n' . $i . '">' . $i . '</label>';
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="euros">Precio: </label>
+                    </td>
+                    <td>
+                        <input type="number" name="euros" id="euros">
+                        <label for="euros">€</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="tamano">Tamaño: </label>
+                    </td>
+                    <td>
+                        <input type="number" name="tamano" id="tamano">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="extras">Extras: </label>
+                    </td>
+                    <td>
+                    <?php
+                    for ($i = 0; $i < count($extras); $i++) {
+                        echo '<input type="checkbox" name="' . $extras[$i] 
+                        . '" id="' . $extras[$i] . '">';
+                        echo '<label for="' . $extras[$i] . '">' 
+                        . $extras[$i] . '</label>';
+                    }
+                    ?>
+                    
+                <tr>
+                    <td>
+                        <label for="observaciones">Observaciones</label>
+                    </td>
+                    <td>
+                        <textarea rows="10" cols="50" name="observaciones" id="observaciones"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="  Insertar vivienda  " name="enviar">
+                    </td>
+                </tr>
+            </table>
         </form>
 
         <?php 
