@@ -2,7 +2,7 @@
 <html lang="en">
     <head> 
         <meta charset="UTF-8">
-        <title>practica6b.php</title> 
+        <title>practica7.php</title> 
     </head> 
     <body>
         <h1>Inserción de vivienda</h1>
@@ -37,7 +37,26 @@
         }
 
         if (isset($_REQUEST['enviar'])) {
-            if (isset($_POST['direc']) && isset($_POST['nDormitorios']) 
+            $vFoto = false;
+            $mFoto = false;
+
+            if (isset($_FILES['foto'])) {
+                if ($_FILES['foto']['size'] <= 100000) {
+                    $vFoto = true;
+
+                    $url = 'fotos/'; 
+                    $filename = $_FILES['foto']['name'];
+                    $file_tmp = $_FILES['foto']['tmp_name'];
+                    $file_size = $_FILES['foto']['size'];
+
+                    move_uploaded_file($file_tmp, $url . $filename);
+                }
+                else {
+                    $mFoto = true;
+                }
+            }
+
+            if (isset($_POST['direc']) && isset($_POST['nDormitorios']) && !$mFoto
                 && isset($_POST['euros']) && isset($_POST['tamano'])
                 && is_numeric(($_POST['euros'])) && is_numeric(($_POST['tamano']))) {
 
@@ -54,6 +73,9 @@
                 if (vExtras($extras)) {
                     echo "<li>Extras: " . rExtras($extras) . "</li>";
                 }
+                if ($vFoto) {
+                    echo "<li>Foto: <a href='fotos/$filename' target='_blank'>$filename</a></li>";
+                }
                 if (isset($_POST['observaciones']) && $_POST['observaciones'] != "") {
                     echo "<li>Observaciones: {$_POST['observaciones']}</li>";
                 }
@@ -61,7 +83,7 @@
                 echo '</ul>';
 
                 echo '<br>';
-                echo "<p>[ <a href='practica6b.php'>Insertar otra vivienda</a> ]</p>";
+                echo "<p>[ <a href='practica7.php'>Insertar otra vivienda</a> ]</p>";
 
             }
             else {
@@ -90,9 +112,13 @@
                 elseif (!is_numeric($_POST['tamano'])) {
                     echo "<li>El Tamaño deve ser un valor numerico</li>";
                 }
+
+                if ($mFoto) {
+                    echo "<li>No se ha podido subir el fichero</li>";
+                }
                 echo '</ul>';
 
-                echo "<p>[ <a href='practica6b.php'>Volver</a> ]</p>";
+                echo "<p>[ <a href='practica7.php'>Volver</a> ]</p>";
             }
 
         }
@@ -128,7 +154,7 @@
 
         <br>
         
-        <form method="post" action="practica6b.php">
+        <form method="post" action="practica7.php" enctype="multipart/form-data">
             <table style="border: solid blue; padding: 5px;">
                 <tr>
                     <td>
@@ -205,7 +231,16 @@
                         . $extras[$i] . '</label>';
                     }
                     ?>
-                    
+                </tr>
+                <tr>
+                    <td>
+                        <label for="foto">Foto: </label>
+                    </td>
+                    <td>
+                        <input type="file" name="foto" id="foto">
+                    </td>
+                </tr>
+
                 <tr>
                     <td>
                         <label for="observaciones">Observaciones</label>
