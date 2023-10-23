@@ -37,8 +37,9 @@
         }
 
         if (isset($_REQUEST['enviar'])) {
-            if (isset($_POST['tipoHabitatge']) && isset($_POST['zonaHabitatge']) && isset($_POST['direc'])
-                && isset($_POST['nDormitorios']) && isset($_POST['euros']) && isset($_POST['tamano'])) {
+            if (isset($_POST['direc']) && isset($_POST['nDormitorios']) 
+                && isset($_POST['euros']) && isset($_POST['tamano'])
+                && is_numeric(($_POST['euros'])) && is_numeric(($_POST['tamano']))) {
 
                 echo '<p>Estos son los datos introducidos</p>';
                 echo '<br>';
@@ -64,26 +65,32 @@
 
             }
             else {
+                echo "<p>No se ha podido realizar la insercion 
+                    debido a los siguientes errores:</p>";
 
-                if (!isset($_POST['tipoHabitatge'])) {
-                    echo "";
+                echo '<ul>';
+                if (!isset($_POST['direc']) || $_POST['direc'] == "") {
+                    echo "<li>Se requiere la Direccion de la vivienda</li>";
                 }
-                if (!isset($_POST['zonaHabitatge'])) {
-                    echo "";
-                }
-                if (!isset($_POST['direc'])) {
-                    echo "";
-                }
+
                 if (!isset($_POST['nDormitorios'])) {
-                    echo "";
-                }
-                if (!isset($_POST['euros'])) {
-                    echo "";
-                }
-                if (!isset($_POST['tamano'])) {
-                    echo "";
+                    echo "<li>No se ha introducido el Numero de Dormitorios</li>";
                 }
 
+                if (!isset($_POST['euros']) || $_POST['euros'] == "") {
+                    echo "<li>No se introducido el Precio</li>";
+                }
+                elseif (!is_numeric($_POST['euros'])) {
+                    echo "<li>El Precio deve ser un valor numerico</li>";
+                }
+
+                if (!isset($_POST['tamano']) || $_POST['tamano'] == "") {
+                    echo "<li>No se ha introducio el Tamaño</li>";
+                }
+                elseif (!is_numeric($_POST['tamano'])) {
+                    echo "<li>El Tamaño deve ser un valor numerico</li>";
+                }
+                echo '</ul>';
 
                 echo "<p>[ <a href='practica6b.php'>Volver</a> ]</p>";
             }
@@ -173,7 +180,7 @@
                         <label for="euros">Precio: </label>
                     </td>
                     <td>
-                        <input type="number" name="euros" id="euros">
+                        <input type="text" name="euros" id="euros">
                         <label for="euros">€</label>
                     </td>
                 </tr>
@@ -182,7 +189,7 @@
                         <label for="tamano">Tamaño: </label>
                     </td>
                     <td>
-                        <input type="number" name="tamano" id="tamano">
+                        <input type="text" name="tamano" id="tamano">
                     </td>
                 </tr>
                 <tr>
