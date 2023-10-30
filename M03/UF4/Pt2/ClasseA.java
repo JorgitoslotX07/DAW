@@ -1,4 +1,4 @@
-package dawmainm03.M03.UF4.Pt2;
+package UF4.Pt2;
 
 public class ClasseA {
     private int valorPrimari;

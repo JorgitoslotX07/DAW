@@ -1,4 +1,4 @@
-package com.negoci;
+package UF4.Pt2.com.negoci;
 
 public class Punt {
     private double x;

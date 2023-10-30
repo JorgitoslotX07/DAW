@@ -1,4 +1,4 @@
-package dawmainm03.M03.UF4.Pt2;
+package UF4.Pt2;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -9,17 +9,18 @@ public class Date {
     private Integer any = 2023;
 
     public Date(Integer d, Integer m, Integer a) {
+    	//L'ordre d'aquests sets afecta. Tal com ho has fet, es mira si el dia es vàlid agafant mes i any per defecte (1 i 2023).
         setDia(d);
         setMes(m);
         setAny(a);
     }
 
     public static final void main(String[] args) {
-        Date data1 = new Date(33, 1, 2020);
+        Date data1 = new Date(39, 2, 2020);
         Date data2 = new Date(20, 4, 2020);
 
         System.out.println("\n" + data1.getDia() + " " + data1.getMes() + " " + data1.getAny());
-
+        
         System.out.println("\n-----------------------------------\n");
         
         System.out.println("\n" + data2.getDia() + " " + data2.getMes() + " " + data2.getAny());

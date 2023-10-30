@@ -1,3 +1,5 @@
+package UF4.Pt1;
+
 import java.util.Scanner;
 class pt1ej1 {
 	public static void main(String[] args) {			

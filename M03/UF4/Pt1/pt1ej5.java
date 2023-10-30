@@ -1,4 +1,4 @@
-
+package UF4.Pt1;
 import java.util.Scanner;
 
 class pt1ej5 {

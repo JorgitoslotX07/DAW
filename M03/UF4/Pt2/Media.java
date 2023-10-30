@@ -1,4 +1,4 @@
-package dawmainm03.M03.UF4.Pt2;
+package UF4.Pt2;
 
 public class Media {
     private String nom;
@@ -13,8 +13,9 @@ public class Media {
 
     public static final void main(String[] args) {
 
-        media m = new media("Pendejada 4000", "Toni Jorda Leon", 120);
+        Media m = new Media("Pendejada 4000", "Toni Jorda Leon", 120);
 
+       
         System.out.println("\n" + m.getNom() + " " + m.getAutor() + " " + m.getDurada());
 
         System.out.println("\n-----------------------------------\n");

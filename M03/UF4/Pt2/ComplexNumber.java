@@ -1,4 +1,4 @@
-
+package UF4.Pt2;
 
 public class ComplexNumber {
     public static final ComplexNumber ZERO = new ComplexNumber(0, 0);
@@ -41,6 +41,7 @@ public class ComplexNumber {
         return new ComplexNumber(newReal, newImaginary);
     }
 
+    //No compleix amb el format requerit.
     @Override
     public String toString() {
         return "Real -> " + this.getReal() + "\nImaginary -> " + this.getImaginary() + "\n";

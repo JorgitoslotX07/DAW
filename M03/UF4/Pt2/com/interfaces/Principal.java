@@ -1,8 +1,8 @@
-package com.interfaces;
-
-import com.negoci.Punt;
+package UF4.Pt2.com.interfaces;
 
 import java.util.Scanner;
+
+import UF4.Pt2.com.negoci.Punt;
 
 public class Principal {
     public static void main(String[] args) {
