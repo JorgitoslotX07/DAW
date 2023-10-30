@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulari de Portàtil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+    <body onload="onLoad()">
+        <script src="script.js"></script>
+
+        <h1>Formulario Portatil</h1>
+        <div id="form">
+            <form method="post">
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" required><br>
+
+                <label for="marca">Modelo:</label>
+                <input type="text" id="modelo" name="modelo" required><br>
+
+                <label for="modeloCPU">Modelo de la CPU:</label>
+                <input type="text" id="modeloCPU" name="modeloCPU" required><br>
+
+                <label for="ram">Capacidad RAM (GB):</label>
+                <input type="number" id="ram" name="ram" required><br>
+
+                <label for="tipoDiscoDuro">Tipo de disco duro:</label>
+                <input type="text" id="tipoDiscoDuro" name="tipoDiscoDuro" required><br>
+
+                <label for="capacidadDiscoDuro">Capacidad del disco duro (GB):</label>
+                <input type="number" id="capacidadDiscoDuro" name="capacidadDiscoDuro" required><br>
+
+                <label for="pantalla">Medida de la pantalla:</label>
+                <input type="number" step="0.1" id="pantalla" name="pantalla" required><br>
+
+                <!-- <input type="submit" value="Enviar"> -->
+            </form>
+
+            <button id="guardar" onclick="guardarPortatil()">Guardar</button>
+
+            <button id="guardar" onclick="reiniciarPortatiles()">Reiniciar</button>
+            <p id="numPortail"></p>
+        </div>
+    </body>
+</html>
