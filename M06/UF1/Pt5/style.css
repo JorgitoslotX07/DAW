@@ -32,7 +32,7 @@ input[type="number"] {
     border-radius: 3px;
 }
 
-#guardar{
+.boton {
     background-color: #007BFF;
     color: #fff;
     padding: 10px 20px;
@@ -41,6 +41,6 @@ input[type="number"] {
     cursor: pointer;
 }
 
-#guardar:hover{
+.boton:hover{
     background-color: #0056b3;
 }
