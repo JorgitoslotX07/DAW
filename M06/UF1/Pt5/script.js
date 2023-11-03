@@ -181,8 +181,9 @@ function tablaPortatiles() {
     let keys = Object.keys(ports.port1.portatil)
 
 
-    // let ventanaEmergente = window.open('', 
-    //     '_blank', 'width=400,height=400');
+    
+    let ventana = window.open('', 
+        '_blank', 'width=400,height=400');
     let tabla = document.createElement('table');
     let fila1 = tabla.insertRow();
     let fila2 = tabla.insertRow();
@@ -205,9 +206,9 @@ function tablaPortatiles() {
     // port2.forEach(e => {
     //     fila3.insertCell().textContent = e;
     // });
-    introducirPortatilFila(port1, fila3);
+    introducirPortatilFila(port2, fila3);
     
-    document.body.appendChild(tabla);
+    ventana.document.body.appendChild(tabla);
 }
 
 function introducirPortatilFila(port, fila) {
