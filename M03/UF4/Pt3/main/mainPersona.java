@@ -2,6 +2,7 @@ package UF4.Pt3.main;
 
 import UF4.Pt3.act.*;
 
+//Recorda nomenclatura classes
 public class mainPersona {
     public static void main(String[] args) {
         Data data1 = new Data(23, 10, 1985);

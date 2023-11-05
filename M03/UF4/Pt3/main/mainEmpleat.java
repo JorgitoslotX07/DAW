@@ -2,6 +2,7 @@ package UF4.Pt3.main;
 
 import UF4.Pt3.act.Empleat;
 
+//Recorda nomenclatura classes
 public class mainEmpleat {
     public static void main(String[] args) {
         Empleat empleat1 = new Empleat("Pepe", 30, 50000.0);

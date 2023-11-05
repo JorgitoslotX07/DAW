@@ -1,7 +1,7 @@
 package UF4.Pt3.main;
 
 import UF4.Pt3.act.NIF2;
-
+//Recorda nomenclatura classes
 public class mainNIF2 {
     public static void main(String[] args) {
         int numeroDNI_1 = 12345678;
