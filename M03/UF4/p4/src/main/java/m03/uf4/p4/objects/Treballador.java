@@ -12,12 +12,21 @@ public class Treballador {
     private double salariBase;
 
     public Treballador() {
-        this.nom = null;
-        this.cognoms = null;
-        this.dni = null;
-        this.dataNaixement = null;
-        this.dataIniciContracte = null;
-        this.salariBase = 0;
+        this(
+            null, 
+            null, 
+            null, 
+            null, 
+            null, 
+            0
+        );
+
+        // this.nom = null;
+        // this.cognoms = null;
+        // this.dni = null;
+        // this.dataNaixement = null;
+        // this.dataIniciContracte = null;
+        // this.salariBase = 0;
     }
 
     public Treballador(String nom, String cognoms, String dni, 
@@ -100,8 +109,18 @@ public class Treballador {
 
         return edat;
     }
-    public int getSalari() {
-        return 0;
+    public double getSalari() {
+        int edad = getEdat();
+
+        if (edad > 16 && edad < 40) {
+            return getSalariBase();
+        } else if (edad >= 40 && edad < 55) {
+            return getSalariBase() + 1000;
+        } else if (edad >= 55) {
+            return getSalariBase() + 2000;
+        }
+        
+        return 0; 
     }
 
     @Override
@@ -114,6 +133,20 @@ public class Treballador {
         "\nSalari Base: " + this.getSalariBase();
     }
 
-
+    public void afegirComplement(Complement complement) {
+        switch (complement) {
+            case BAIX:
+                this.salariBase += 100;
+                break;
+            case MIG:
+                this.salariBase += 500;
+                break;
+            case ALT:
+                this.salariBase += 1000;
+                break;
+            default:
+                break;
+        }
+    }
     
 }
