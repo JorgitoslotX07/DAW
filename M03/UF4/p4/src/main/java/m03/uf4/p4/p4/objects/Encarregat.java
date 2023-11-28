@@ -131,7 +131,7 @@ public class Encarregat extends Treballador {
     private String toStringEmpleats() {
         StringBuilder result = new StringBuilder();
 
-        result.append("Llistat treballadors de [ ")
+        result.append("Llista treballadors de [ ")
             .append(getDni())
             .append(" ]:\n");
 

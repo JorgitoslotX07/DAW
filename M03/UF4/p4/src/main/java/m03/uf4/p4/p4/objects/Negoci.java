@@ -67,7 +67,20 @@ public abstract class Negoci {
         return sumaSalari / contadorEmpleats;
     }
 
-    public boolean afegirTreballador(Treballador treballador) {
+    public void afegirTreballador(Treballador treballador) {
+        List<String> dnis = obtenerDnis();
+
+        if (!dnis.contains(treballador.getDni())) {
+            for (int i = 0; i < llistaTreballadors.length; i++) {
+                if (llistaTreballadors[i] == null) {
+                    llistaTreballadors[i] = treballador;
+                    contadorEmpleats++;
+                }
+            }
+        }
+    }
+
+    public boolean afegirTreballadorReturn(Treballador treballador) {
         List<String> dnis = obtenerDnis();
 
         if (!dnis.contains(treballador.getDni())) {
@@ -82,7 +95,7 @@ public abstract class Negoci {
         return false;
     }
 
-    public boolean borrarTreballador(Treballador treballador) {
+    public void borrarTreballador(Treballador treballador) {
         List<String> dnis = obtenerDnis();
 
         if (dnis.contains(treballador.getDni())) {
@@ -92,12 +105,12 @@ public abstract class Negoci {
                         ((Encarregat) treballador).setLlistaTreballadors(null);
                     }
                     llistaTreballadors[i] = null;
-                    contadorEmpleats--;
-                    return true;
+                    if (contadorEmpleats > 0) {
+                        contadorEmpleats--;
+                    }
                 }
             }
         }
-        return false;
     }
 
     private List<String> obtenerDnis() {
