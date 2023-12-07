@@ -5,6 +5,7 @@ public class Fabrica extends Negoci {
         super(identificador);
     }
 
+    //Aquesst mètode realment està sobreescrivint el de Negoci però no ho fa correctament per què no actualitza el numTreballadors i per tant, no sap quants n'hi ha realment.
     public void afegirTreballador(Treballador treballador) {
         super.getLlistaTreballadors()[super.getContadorEmpleats()] = treballador;
         treballador.afegirComplement(Complement.MIG);

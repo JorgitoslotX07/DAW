@@ -44,9 +44,11 @@ public class Encarregat extends Treballador {
         return salari + souExtra;
     }
 
+    //Encara no hem explicat arrayLists per generar-ho així, però bé... 
     private List<String> obtenerDnis() {
         List<String> dnis = new ArrayList<>();
         for (Treballador existent : llistaTreballadors) {
+        	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
             if (existent != null) {
                 dnis.add(existent.getDni());
             }
@@ -54,11 +56,13 @@ public class Encarregat extends Treballador {
         return dnis;
     }
 
+    //Falta validar si està intentant assignar un Encarregat que sigui el seu propi jefe. O a ell mateix (bucle infinit)
     public boolean afegirTreballador(Treballador treballador) {
         List<String> dnis = obtenerDnis();
 
         if (!dnis.contains(treballador.getDni())) {
-            for (int i = 0; i < llistaTreballadors.length; i++) {
+        	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
+        	for (int i = 0; i < llistaTreballadors.length; i++) {
                 if (llistaTreballadors[i] == null) {
                     llistaTreballadors[i] = treballador;
                     return true;
@@ -72,6 +76,7 @@ public class Encarregat extends Treballador {
         List<String> dnis = obtenerDnis();
 
         if (dnis.contains(treballador.getDni())) {
+        	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
             for (int i = 0; i < llistaTreballadors.length; i++) {
                 if (llistaTreballadors[i] == treballador) {
                     llistaTreballadors[i] = null;
@@ -84,7 +89,7 @@ public class Encarregat extends Treballador {
 
     public int nivellEncarregat() {
         int nivell = 0;
-
+    	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
         for (Treballador treballador : llistaTreballadors) {
             if (treballador instanceof Encarregat) {
                 nivell += contarNivellsEncarregats((Encarregat) treballador);
@@ -96,9 +101,11 @@ public class Encarregat extends Treballador {
 
     private int contarNivellsEncarregats(Encarregat encarregat) {
         int nivells = 0;
-    
+    	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
         for (Treballador subencarregat : encarregat.getLlistaTreballadors()) {
             if (subencarregat instanceof Encarregat) {   
+            	//Estas sobrescrivint a 0 quan tornes a cridar la pròpia funció. Està bé cridar-la cíclicament però t'hauries de guardar la resposta en una altra variable, i en cas de que sigui superior al valor que ja tens, sumar-la.
+            	
                 nivells += contarNivellsEncarregats((Encarregat) subencarregat);
             }
         }

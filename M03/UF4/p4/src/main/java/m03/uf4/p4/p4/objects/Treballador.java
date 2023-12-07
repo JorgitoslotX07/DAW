@@ -11,6 +11,7 @@ public class Treballador {
     private LocalDate dataIniciContracte;
     private double salariBase;
 
+    //El constructors sense paràmetres no cal que defineixis res, per defecte fa el que has posat
     public Treballador() {
         this(
             null, 
@@ -97,7 +98,7 @@ public class Treballador {
     public int getEdat() {
         LocalDate dn = this.dataNaixement;
         LocalDate fecha = LocalDate.now();
-
+        //Per calcular l'edat era més fàcil utilitzar Period.between(Data 1, Data2).getYears(). Pero
         int edat = fecha.getYear() - dn.getYear();
 
         if (fecha.getMonthValue() < dn.getMonthValue()  || 

@@ -20,6 +20,7 @@ public abstract class Negoci {
     public Negoci(String identificador, Treballador[] llistaTreballadors) {
         this.identificador = identificador;
         this.llistaTreballadors = llistaTreballadors; 
+        //Ves en compte, llistaTreballadors.length sempre et retornarà la longitud de l'array independentment de si els objectes que hi ha estan instanciats o no.
         this.contadorEmpleats = llistaTreballadors.length; 
         contadorNegocis++;
     }
@@ -67,6 +68,7 @@ public abstract class Negoci {
         return sumaSalari / contadorEmpleats;
     }
 
+    //La idea es que aquest mètode s'ha de sobreescriure en les classes que heretin de Negoci i ho facin ells.
     public void afegirTreballador(Treballador treballador) {
         List<String> dnis = obtenerDnis();
 
@@ -95,6 +97,7 @@ public abstract class Negoci {
         return false;
     }
 
+    //El contador d'empleats t'està fallant (quan s'utilitza des de Fabrica i EmpresaAdministrativa (per que no l'actualitzen i per tant queda sempre a 0) i per aquest motiu et fallen algunes funcions
     public void borrarTreballador(Treballador treballador) {
         List<String> dnis = obtenerDnis();
 
