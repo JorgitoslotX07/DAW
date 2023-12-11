@@ -63,20 +63,24 @@ public class Encarregat extends Treballador {
         if (!dnis.contains(treballador.getDni()) && treballador.getDni() != super.getDni()) {
 
             // Aqui es donde estoy probando
-            
-            // if (treballador instanceof Encarregat) {
-            //     if (treballadorContieneDni((Encarregat) treballador, treballador.getDni())) {
-            //         return false;
-            //     }
-            // }
+            // System.out.println(treballador.getClass());
+            // System.out.println(treballador.getDni() + " - " + super.getDni());
 
         	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
         	for (int i = 0; i < llistaTreballadors.length; i++) {
                 if (llistaTreballadors[i] == null) {
                     llistaTreballadors[i] = treballador;
+                    if (treballador instanceof Encarregat) {
+                        if (treballadorContieneDni((Encarregat) treballador, super.getDni())) {
+                            llistaTreballadors[i] = null;
+                            return false;
+                        }
+                    }
                     return true;
                 }
             }
+
+            
         }
         return false;
     }
@@ -86,11 +90,11 @@ public class Encarregat extends Treballador {
         for (Treballador trabaja : encarregat.getLlistaTreballadors()) {
             if (trabaja != null) {
                 if (trabaja.getDni().equals(dniBuscado)) {
-                    return true;
-                } else if (trabaja instanceof Encarregat) {
-                    return treballadorContieneDni((Encarregat) trabaja, dniBuscado);
-                }
+                return true;
+            } else if (trabaja instanceof Encarregat) {
+                return treballadorContieneDni((Encarregat) trabaja, dniBuscado);
             }
+            }            
         }
         return false;
     }
