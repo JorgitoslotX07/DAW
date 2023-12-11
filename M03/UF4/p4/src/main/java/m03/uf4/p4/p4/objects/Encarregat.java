@@ -60,7 +60,16 @@ public class Encarregat extends Treballador {
     public boolean afegirTreballador(Treballador treballador) {
         List<String> dnis = obtenerDnis();
 
-        if (!dnis.contains(treballador.getDni())) {
+        if (!dnis.contains(treballador.getDni()) && treballador.getDni() != super.getDni()) {
+
+            // Aqui es donde estoy probando
+            
+            // if (treballador instanceof Encarregat) {
+            //     if (treballadorContieneDni((Encarregat) treballador, treballador.getDni())) {
+            //         return false;
+            //     }
+            // }
+
         	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
         	for (int i = 0; i < llistaTreballadors.length; i++) {
                 if (llistaTreballadors[i] == null) {
@@ -71,6 +80,22 @@ public class Encarregat extends Treballador {
         }
         return false;
     }
+
+    // Estoy intentando para verificar que el trabajador a agregar no sea su jefe. Para ello lo que quiero hacer es recorrer ese mismo encargado y ver su lista de encargados, y si se encientra ahi cancelar el agregado
+    private boolean treballadorContieneDni(Encarregat encarregat, String dniBuscado) {
+        for (Treballador trabaja : encarregat.getLlistaTreballadors()) {
+            if (trabaja != null) {
+                if (trabaja.getDni().equals(dniBuscado)) {
+                    return true;
+                } else if (trabaja instanceof Encarregat) {
+                    return treballadorContieneDni((Encarregat) trabaja, dniBuscado);
+                }
+            }
+        }
+        return false;
+    }
+    
+    
 
     public boolean borrarTreballador(Treballador treballador) {
         List<String> dnis = obtenerDnis();
@@ -89,28 +114,41 @@ public class Encarregat extends Treballador {
 
     public int nivellEncarregat() {
         int nivell = 0;
+        int newNivell = 0;
     	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
         for (Treballador treballador : llistaTreballadors) {
-            if (treballador instanceof Encarregat) {
-                nivell += contarNivellsEncarregats((Encarregat) treballador);
+            if (treballador instanceof Encarregat && treballador != null) {
+                newNivell = contarNivellsEncarregats((Encarregat) treballador);
+
+                if (newNivell > nivell) {
+                    nivell = newNivell;
+                }
             }
         }
 
-        return nivell;
+        return nivell + 1;
     }
 
     private int contarNivellsEncarregats(Encarregat encarregat) {
         int nivells = 0;
+        int newNivells = 0;
     	//Tingues en compte que si no fessis aquesta validació no et serviria fer el foreach, estàs recorrent sempre les 50 posicions independentment de si hi ha objectes o no. Poc òptim
         for (Treballador subencarregat : encarregat.getLlistaTreballadors()) {
-            if (subencarregat instanceof Encarregat) {   
+            if (subencarregat instanceof Encarregat && subencarregat != null) {   
             	//Estas sobrescrivint a 0 quan tornes a cridar la pròpia funció. Està bé cridar-la cíclicament però t'hauries de guardar la resposta en una altra variable, i en cas de que sigui superior al valor que ja tens, sumar-la.
             	
-                nivells += contarNivellsEncarregats((Encarregat) subencarregat);
+                newNivells += contarNivellsEncarregats((Encarregat) subencarregat);
+
+                if (newNivells > nivells) {
+                    nivells= newNivells;
+                }
             }
         }
-    
-        return nivells;
+        if (encarregat.lengthLlistaTreballadors() > 0) {
+            return nivells + 1;
+        } else {
+            return nivells;
+        }
     }
 
 
@@ -126,11 +164,15 @@ public class Encarregat extends Treballador {
             .append(" | ")
             .append(getDataNaixement())
             .append(" | ")
+            .append(getEdat())
+            .append(" | ")
             .append(getSalariBase())
             .append("€ ]\n");
-
-        result.append(toStringEmpleats());
-
+        if (lengthLlistaTreballadors() != 0) {
+            result.append(toStringEmpleats());
+        } else {
+            result.append("\n");
+        }
 
         return result.toString();
     }
@@ -140,7 +182,7 @@ public class Encarregat extends Treballador {
 
         result.append("Llista treballadors de [ ")
             .append(getDni())
-            .append(" ]:\n");
+            .append(" ]: {\n");
 
         for (int i = 0; i < llistaTreballadors.length; i++) {
             Treballador treballador = llistaTreballadors[i];
@@ -158,7 +200,19 @@ public class Encarregat extends Treballador {
                 }
             }
         }
+        result.append("}\n\n");
 
         return result.toString();
+    }
+
+    private int lengthLlistaTreballadors() {
+        int can = 0;
+        for (int i = 0; i < llistaTreballadors.length; i++) {
+            if (llistaTreballadors[i] != null) {
+                can++;
+            }
+        }
+
+        return can;
     }
 }

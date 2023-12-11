@@ -21,7 +21,7 @@ public abstract class Negoci {
         this.identificador = identificador;
         this.llistaTreballadors = llistaTreballadors; 
         //Ves en compte, llistaTreballadors.length sempre et retornarà la longitud de l'array independentment de si els objectes que hi ha estan instanciats o no.
-        this.contadorEmpleats = llistaTreballadors.length; 
+        this.contadorEmpleats = lengthLlistaTreballadors(); 
         contadorNegocis++;
     }
  
@@ -40,13 +40,12 @@ public abstract class Negoci {
 
     public void setLlistaTreballadors(Treballador[] llistaTreballadors) {
         this.llistaTreballadors = llistaTreballadors;
-        this.contadorEmpleats = llistaTreballadors.length;
+        this.contadorEmpleats = lengthLlistaTreballadors(); // + 1
     }
 
     public int getContadorEmpleats() {
         return contadorEmpleats;
     }
-
 
     public static int getContadorNegocis() {
         return contadorNegocis;
@@ -68,19 +67,19 @@ public abstract class Negoci {
         return sumaSalari / contadorEmpleats;
     }
 
+    public abstract void afegirTreballador(Treballador treballador);
     //La idea es que aquest mètode s'ha de sobreescriure en les classes que heretin de Negoci i ho facin ells.
-    public void afegirTreballador(Treballador treballador) {
-        List<String> dnis = obtenerDnis();
-
-        if (!dnis.contains(treballador.getDni())) {
-            for (int i = 0; i < llistaTreballadors.length; i++) {
-                if (llistaTreballadors[i] == null) {
-                    llistaTreballadors[i] = treballador;
-                    contadorEmpleats++;
-                }
-            }
-        }
-    }
+    // public void afegirTreballador(Treballador treballador) {
+    //     List<String> dnis = obtenerDnis();
+    //     if (!dnis.contains(treballador.getDni())) {
+    //         for (int i = 0; i < llistaTreballadors.length; i++) {
+    //             if (llistaTreballadors[i] == null) {
+    //                 llistaTreballadors[i] = treballador;
+    //                 contadorEmpleats++;
+    //             }
+    //         }
+    //     }
+    // }
 
     public boolean afegirTreballadorReturn(Treballador treballador) {
         List<String> dnis = obtenerDnis();
@@ -107,16 +106,17 @@ public abstract class Negoci {
                     if (treballador instanceof Encarregat) {
                         ((Encarregat) treballador).setLlistaTreballadors(null);
                     }
-                    llistaTreballadors[i] = null;
+                    
                     if (contadorEmpleats > 0) {
                         contadorEmpleats--;
                     }
+                    llistaTreballadors[i] = null;
                 }
             }
         }
     }
 
-    private List<String> obtenerDnis() {
+    public List<String> obtenerDnis() {
         List<String> dnis = new ArrayList<>();
         for (Treballador existent : llistaTreballadors) {
             if (existent != null) {
@@ -124,5 +124,16 @@ public abstract class Negoci {
             }
         }
         return dnis;
+    }
+
+    private int lengthLlistaTreballadors() {
+        int can = 0;
+        for (int i = 0; i < llistaTreballadors.length; i++) {
+            if (llistaTreballadors[i] != null) {
+                can++;
+            }
+        }
+
+        return can;
     }
 }

@@ -1,12 +1,28 @@
 package m03.uf4.p4.p4.objects;
 
+import java.util.List;
+
 public class EmpresaAdministrativa extends Negoci {
     public EmpresaAdministrativa(String identificador) {
         super(identificador);
     }
 
+    //@Override
     public void afegirTreballador(Treballador treballador) {
-        super.getLlistaTreballadors()[super.getContadorEmpleats()] = treballador;
+        List<String> dnis = super.obtenerDnis();
+        Treballador[] llistaTreballadors = getLlistaTreballadors();
+
+        if (!dnis.contains(treballador.getDni())) {
+            boolean uno = true;
+            for (int i = 0; i < llistaTreballadors.length; i++) {
+                if (llistaTreballadors[i] == null && uno) {
+                    llistaTreballadors[i] = treballador;
+                    uno = false;
+                }
+            }
+        }
+        setLlistaTreballadors(llistaTreballadors);
+        
         treballador.afegirComplement(Complement.BAIX);
     }
 

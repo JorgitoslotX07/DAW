@@ -1,6 +1,7 @@
 package m03.uf4.p4.p4.objects;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class Treballador {
 
@@ -13,21 +14,14 @@ public class Treballador {
 
     //El constructors sense paràmetres no cal que defineixis res, per defecte fa el que has posat
     public Treballador() {
-        this(
-            null, 
-            null, 
-            null, 
-            null, 
-            null, 
-            0
-        );
-
-        // this.nom = null;
-        // this.cognoms = null;
-        // this.dni = null;
-        // this.dataNaixement = null;
-        // this.dataIniciContracte = null;
-        // this.salariBase = 0;
+        // this(
+        //     null, 
+        //     null, 
+        //     null, 
+        //     null, 
+        //     null, 
+        //     0
+        // );
     }
 
     public Treballador(String nom, String cognoms, String dni, 
@@ -98,17 +92,19 @@ public class Treballador {
     public int getEdat() {
         LocalDate dn = this.dataNaixement;
         LocalDate fecha = LocalDate.now();
+
+        return  Period.between(dn, fecha).getYears();
         //Per calcular l'edat era més fàcil utilitzar Period.between(Data 1, Data2).getYears(). Pero
-        int edat = fecha.getYear() - dn.getYear();
+        // int edat = fecha.getYear() - dn.getYear();
 
-        if (fecha.getMonthValue() < dn.getMonthValue()  || 
-            (fecha.getMonthValue() == dn.getMonthValue() &&
-            fecha.getDayOfMonth() < dn.getDayOfMonth())) {
+        // if (fecha.getMonthValue() < dn.getMonthValue()  || 
+        //     (fecha.getMonthValue() == dn.getMonthValue() &&
+        //     fecha.getDayOfMonth() < dn.getDayOfMonth())) {
             
-                edat --;
-        } 
+        //         edat --;
+        // } 
 
-        return edat;
+        // return edat;
     }
     public double getSalari() {
         int edad = getEdat();
@@ -135,6 +131,8 @@ public class Treballador {
             .append(getDni())
             .append(" | ")
             .append(getDataNaixement())
+            .append(" | ")
+            .append(getEdat())
             .append(" | ")
             .append(getSalariBase())
             .append("€ ]\n");

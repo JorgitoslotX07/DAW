@@ -1,13 +1,29 @@
 package m03.uf4.p4.p4.objects;
 
+import java.util.List;
+
 public class Fabrica extends Negoci {
     public Fabrica(String identificador) {
         super(identificador);
     }
 
     //Aquesst mètode realment està sobreescrivint el de Negoci però no ho fa correctament per què no actualitza el numTreballadors i per tant, no sap quants n'hi ha realment.
+    //@Override
     public void afegirTreballador(Treballador treballador) {
-        super.getLlistaTreballadors()[super.getContadorEmpleats()] = treballador;
+        List<String> dnis = super.obtenerDnis();
+        Treballador[] llistaTreballadors = getLlistaTreballadors();
+
+        if (!dnis.contains(treballador.getDni())) {
+            boolean uno = true;
+            for (int i = 0; i < llistaTreballadors.length; i++) {
+                if (llistaTreballadors[i] == null && uno) {
+                    llistaTreballadors[i] = treballador;
+                    uno = false;
+                }
+            }
+        }
+        setLlistaTreballadors(llistaTreballadors);
+
         treballador.afegirComplement(Complement.MIG);
         treballador.afegirComplement(Complement.ALT);
     }

@@ -33,6 +33,31 @@ public class P4Application {
                 LocalDate.of(1980, 3, 5),
                 LocalDate.of(2010, 7, 1),
                 3000, 500);
+    
+        Encarregat encarregat2 = new Encarregat("Manager", "One", "22222222X",
+                LocalDate.of(1980, 3, 5),
+                LocalDate.of(2010, 7, 1),
+                3000, 500);
+        Encarregat encarregat3 = new Encarregat("Manager", "One", "22233222X",
+                LocalDate.of(1980, 3, 5),
+                LocalDate.of(2010, 7, 1),
+                3000, 500);
+        Encarregat encarregat4 = new Encarregat("Manager", "One", "22224222X",
+                LocalDate.of(1980, 3, 5),
+                LocalDate.of(2010, 7, 1),
+                3000, 500);
+        Encarregat encarregat5 = new Encarregat("Manager", "One", "22235222X",
+                LocalDate.of(1980, 3, 5),
+                LocalDate.of(2010, 7, 1),
+                3000, 500);
+                Encarregat encarregat6 = new Encarregat("Manager", "One", "22262222X",
+                LocalDate.of(1980, 3, 5),
+                LocalDate.of(2010, 7, 1),
+                3000, 500);
+        Encarregat encarregat7 = new Encarregat("Manager", "One", "22237222X",
+                LocalDate.of(1980, 3, 5),
+                LocalDate.of(2010, 7, 1),
+                3000, 500);
 
 
         Fabrica fabrica1 = new Fabrica("FAB001");
@@ -52,10 +77,21 @@ public class P4Application {
 
 		empresaAdmin1.afegirTreballador(encarregat1);
 
+        encarregat1.afegirTreballador(encarregat2);
+        encarregat1.afegirTreballador(encarregat3);
+        //encarregat2.afegirTreballador(encarregat4);
+        encarregat2.afegirTreballador(encarregat5);
+        encarregat5.afegirTreballador(encarregat6);
+        encarregat6.afegirTreballador(encarregat4);
+        // encarregat4.afegirTreballador(encarregat2); //en este momento puedo hacer esto y crea un bucle infinito
+        encarregat3.afegirTreballador(encarregat7);
+
         
         System.out.println("Fabrica1: " + fabrica1.toString());
         System.out.println("EmpresaAdministrativa1: " + empresaAdmin1.toString());
 		System.out.println(gestor.obtenirTipus(empresaAdmin1));
+        System.out.println("Nivells: " + encarregat1.nivellEncarregat());
+        
     }
 
 }
