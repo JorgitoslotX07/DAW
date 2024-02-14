@@ -33,7 +33,25 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+	
+   <dependency>
+     <groupId>com.heavenark.infrastructure</groupId>
+     <artifactId>ark-web</artifactId>
+     <version>3.0.3</version>
+   </dependency>
+ 
+   <dependency>
+     <groupId>com.atlan</groupId>
+     <artifactId>atlan-java</artifactId>
+     <version>1.10.1</version>
+   </dependency>
+ 
+   <dependency>
+     <groupId>org.antlr</groupId>
+     <artifactId>antlr4-runtime</artifactId>
+     <version>4.7.2</version>
+   </dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
