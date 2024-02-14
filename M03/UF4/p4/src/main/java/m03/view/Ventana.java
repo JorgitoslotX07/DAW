@@ -16,18 +16,30 @@ import javax.swing.JTextField;
 
 import m03.uf4.p4.p4.objects.Encarregat;
 import m03.view.actionListeners.verTrabajadores;
+import m03.view.actionListeners.altaTrabajadores;
+
 
 
 public class Ventana extends JFrame{
     private Encarregat encarregat;
 
     private verTrabajadores vt;
+    private altaTrabajadores at;
 
     ActionListener boton1 = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			dispose();
             vt = new verTrabajadores(encarregat);
+		}
+		
+	};
+
+    ActionListener boton2 = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			dispose();
+            at = new altaTrabajadores(encarregat);
 		}
 		
 	};
@@ -58,11 +70,8 @@ public class Ventana extends JFrame{
         b1.addActionListener(boton1);
 
         JButton b2 = new JButton("Donar d’alta Treballadors");
-        b2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        b2.addActionListener(boton2);
+        
         JButton b3 = new JButton("Tancar");
         b3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
