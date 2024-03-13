@@ -1,0 +1,181 @@
+2024-03-13T21:36:15.255+01:00  INFO 4136 --- [main] m03.application.Application              : Starting Application using Java 17.0.6 with PID 4136 (C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1\M03\UF4\p4\target\classes started by jorgi in C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1)
+2024-03-13T21:36:15.258+01:00  INFO 4136 --- [main] m03.application.Application              : No active profile set, falling back to 1 default profile: "default"
+2024-03-13T21:36:16.186+01:00  WARN 4136 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mongo' defined in class path resource [org/springframework/boot/autoconfigure/mongo/MongoAutoConfiguration.class]: Failed to instantiate [com.mongodb.client.MongoClient]: Factory method 'mongo' threw exception with message: 'com.mongodb.MongoClientSettings$Builder com.mongodb.MongoClientSettings$Builder.uuidRepresentation(org.bson.UuidRepresentation)'
+2024-03-13T21:36:16.196+01:00  INFO 4136 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-03-13T21:36:16.212+01:00 ERROR 4136 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+An attempt was made to call a method that does not exist. The attempt was made from the following location:
+
+    org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer.customize(StandardMongoClientSettingsBuilderCustomizer.java:60)
+
+The following method did not exist:
+
+    'com.mongodb.MongoClientSettings$Builder com.mongodb.MongoClientSettings$Builder.uuidRepresentation(org.bson.UuidRepresentation)'
+
+The calling method's class, org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer, was loaded from the following location:
+
+    jar:file:/C:/Users/jorgi/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.1.6/spring-boot-autoconfigure-3.1.6.jar!/org/springframework/boot/autoconfigure/mongo/StandardMongoClientSettingsBuilderCustomizer.class
+
+The called method's class, com.mongodb.MongoClientSettings$Builder, is available from the following locations:
+
+    jar:file:/C:/Users/jorgi/.m2/repository/org/mongodb/mongo-java-driver/3.11.0/mongo-java-driver-3.11.0.jar!/com/mongodb/MongoClientSettings$Builder.class
+
+The called method's class hierarchy was loaded from the following locations:
+
+    com.mongodb.MongoClientSettings.Builder: file:/C:/Users/jorgi/.m2/repository/org/mongodb/mongo-java-driver/3.11.0/mongo-java-driver-3.11.0.jar
+
+
+Action:
+
+Correct the classpath of your application so that it contains compatible versions of the classes org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer and com.mongodb.MongoClientSettings$Builder
+
+2024-03-13T21:37:39.421+01:00  INFO 5764 --- [main] m03.application.Application              : Starting Application using Java 17.0.6 with PID 5764 (C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1\M03\UF4\p4\target\classes started by jorgi in C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1)
+2024-03-13T21:37:39.424+01:00  INFO 5764 --- [main] m03.application.Application              : No active profile set, falling back to 1 default profile: "default"
+2024-03-13T21:37:40.270+01:00  WARN 5764 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mongo' defined in class path resource [org/springframework/boot/autoconfigure/mongo/MongoAutoConfiguration.class]: Failed to instantiate [com.mongodb.client.MongoClient]: Factory method 'mongo' threw exception with message: 'com.mongodb.MongoClientSettings$Builder com.mongodb.MongoClientSettings$Builder.uuidRepresentation(org.bson.UuidRepresentation)'
+2024-03-13T21:37:40.280+01:00  INFO 5764 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-03-13T21:37:40.300+01:00 ERROR 5764 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+An attempt was made to call a method that does not exist. The attempt was made from the following location:
+
+    org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer.customize(StandardMongoClientSettingsBuilderCustomizer.java:60)
+
+The following method did not exist:
+
+    'com.mongodb.MongoClientSettings$Builder com.mongodb.MongoClientSettings$Builder.uuidRepresentation(org.bson.UuidRepresentation)'
+
+The calling method's class, org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer, was loaded from the following location:
+
+    jar:file:/C:/Users/jorgi/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.1.6/spring-boot-autoconfigure-3.1.6.jar!/org/springframework/boot/autoconfigure/mongo/StandardMongoClientSettingsBuilderCustomizer.class
+
+The called method's class, com.mongodb.MongoClientSettings$Builder, is available from the following locations:
+
+    jar:file:/C:/Users/jorgi/.m2/repository/org/mongodb/mongo-java-driver/3.11.0/mongo-java-driver-3.11.0.jar!/com/mongodb/MongoClientSettings$Builder.class
+
+The called method's class hierarchy was loaded from the following locations:
+
+    com.mongodb.MongoClientSettings.Builder: file:/C:/Users/jorgi/.m2/repository/org/mongodb/mongo-java-driver/3.11.0/mongo-java-driver-3.11.0.jar
+
+
+Action:
+
+Correct the classpath of your application so that it contains compatible versions of the classes org.springframework.boot.autoconfigure.mongo.StandardMongoClientSettingsBuilderCustomizer and com.mongodb.MongoClientSettings$Builder
+
+2024-03-13T21:41:05.704+01:00  INFO 18912 --- [main] m03.application.Application              : Starting Application using Java 17.0.6 with PID 18912 (C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1\M03\UF4\p4\target\classes started by jorgi in C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1)
+2024-03-13T21:41:05.707+01:00  INFO 18912 --- [main] m03.application.Application              : No active profile set, falling back to 1 default profile: "default"
+2024-03-13T21:41:06.551+01:00  INFO 18912 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2024-03-13T21:41:06.584+01:00  INFO 18912 --- [cluster-ClusterId{value='65f20f62f4c2cb2e71a2a01e', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Exception in monitor thread while connecting to server localhost:27017
+
+com.mongodb.MongoSocketOpenException: Exception opening socket
+	at com.mongodb.internal.connection.SocketStream.open(SocketStream.java:70) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.open(InternalStreamConnection.java:128) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:117) ~[mongo-java-driver-3.12.10.jar:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:633) ~[na:na]
+	at com.mongodb.internal.connection.SocketStreamHelper.initialize(SocketStreamHelper.java:64) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.SocketStream.initializeSocket(SocketStream.java:79) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.SocketStream.open(SocketStream.java:65) ~[mongo-java-driver-3.12.10.jar:na]
+	... 3 common frames omitted
+
+2024-03-13T21:41:06.603+01:00  INFO 18912 --- [main] m03.application.Application              : Started Application in 1.297 seconds (process running for 1.657)
+2024-03-13T21:41:06.607+01:00  INFO 18912 --- [main] m03.application.Application              : Inicio Aplicacion
+2024-03-13T21:41:41.836+01:00  INFO 18912 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Cambios guardados correctamente en el archivo XML.
+2024-03-13T21:41:41.837+01:00  INFO 18912 --- [AWT-EventQueue-0] m03.services.TreballadorService          : Nuevo trabajador agregado con éxito: Encarregat [ Jorda, Toni | eeee | 2004-06-28 | 19 | 4000.0€ ]
+
+
+2024-03-13T21:41:41.839+01:00  INFO 18912 --- [AWT-EventQueue-0] m03.controllers.TreballadorController    : New Encarregat added: Encarregat [ Jorda, Toni | eeee | 2004-06-28 | 19 | 4000.0€ ]
+
+
+2024-03-13T21:44:43.396+01:00  INFO 7276 --- [main] m03.application.Application              : Starting Application using Java 17.0.6 with PID 7276 (C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1\M03\UF4\p4\target\classes started by jorgi in C:\Users\jorgi\Downloads\DAW-p4TJorda_1.zip-20240313T185637Z-001\DAW-p4TJorda_1)
+2024-03-13T21:44:43.399+01:00  INFO 7276 --- [main] m03.application.Application              : No active profile set, falling back to 1 default profile: "default"
+2024-03-13T21:44:44.338+01:00  INFO 7276 --- [main] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2024-03-13T21:44:44.376+01:00  INFO 7276 --- [cluster-ClusterId{value='65f2103c5b20d558ac8cc66c', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Exception in monitor thread while connecting to server localhost:27017
+
+com.mongodb.MongoSocketOpenException: Exception opening socket
+	at com.mongodb.internal.connection.SocketStream.open(SocketStream.java:70) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.InternalStreamConnection.open(InternalStreamConnection.java:128) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:117) ~[mongo-java-driver-3.12.10.jar:na]
+	at java.base/java.lang.Thread.run(Thread.java:833) ~[na:na]
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:633) ~[na:na]
+	at com.mongodb.internal.connection.SocketStreamHelper.initialize(SocketStreamHelper.java:64) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.SocketStream.initializeSocket(SocketStream.java:79) ~[mongo-java-driver-3.12.10.jar:na]
+	at com.mongodb.internal.connection.SocketStream.open(SocketStream.java:65) ~[mongo-java-driver-3.12.10.jar:na]
+	... 3 common frames omitted
+
+2024-03-13T21:44:44.398+01:00  INFO 7276 --- [main] m03.application.Application              : Started Application in 1.378 seconds (process running for 1.837)
+2024-03-13T21:44:44.403+01:00  INFO 7276 --- [main] m03.application.Application              : Inicio Aplicacion
+2024-03-13T21:44:46.045+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Lista actual de trabajadores:
+2024-03-13T21:44:46.047+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ Messi Andorra, Gemma | 12345678Z | 2001-01-01 | 23 | 1200.0€ ]
+
+2024-03-13T21:44:46.047+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ Perez Hernandez, Josep | 12312312V | 2002-02-02 | 22 | 1000.0€ ]
+
+2024-03-13T21:44:46.047+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ Gonzalez Ronaldo, Laura | 00000000T | 2003-03-03 | 21 | 1000.0€ ]
+
+2024-03-13T21:44:46.048+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Izaro José, Jojefa | 22222222T | 2005-05-05 | 18 | 5000.0€ ]
+
+
+2024-03-13T21:44:46.048+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Jorda, Toni | 22332211T | 2004-06-28 | 19 | 2500.0€ ]
+
+
+2024-03-13T21:44:46.049+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Trabajador, Nuevo | 12345578A | 1990-01-01 | 34 | 2500.0€ ]
+
+
+2024-03-13T21:44:46.049+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ e, e | ee | 1990-01-01 | 34 | 1000.0€ ]
+
+
+2024-03-13T21:44:46.049+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ ee, ee | tt | 1990-01-01 | 34 | 1000.0€ ]
+
+2024-03-13T21:44:46.050+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Jorda, Toni | eeee | 2004-06-28 | 19 | 4000.0€ ]
+
+
+2024-03-13T21:44:46.058+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Lista actual de trabajadores:
+2024-03-13T21:44:46.058+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ Messi Andorra, Gemma | 12345678Z | 2001-01-01 | 23 | 1200.0€ ]
+
+2024-03-13T21:44:46.059+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ Perez Hernandez, Josep | 12312312V | 2002-02-02 | 22 | 1000.0€ ]
+
+2024-03-13T21:44:46.059+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ Gonzalez Ronaldo, Laura | 00000000T | 2003-03-03 | 21 | 1000.0€ ]
+
+2024-03-13T21:44:46.060+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Izaro José, Jojefa | 22222222T | 2005-05-05 | 18 | 5000.0€ ]
+
+
+2024-03-13T21:44:46.060+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Jorda, Toni | 22332211T | 2004-06-28 | 19 | 2500.0€ ]
+
+
+2024-03-13T21:44:46.061+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Trabajador, Nuevo | 12345578A | 1990-01-01 | 34 | 2500.0€ ]
+
+
+2024-03-13T21:44:46.061+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ e, e | ee | 1990-01-01 | 34 | 1000.0€ ]
+
+
+2024-03-13T21:44:46.061+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Treballador [ ee, ee | tt | 1990-01-01 | 34 | 1000.0€ ]
+
+2024-03-13T21:44:46.062+01:00  INFO 7276 --- [AWT-EventQueue-0] m.r.r.XMLFileTreballadorRepository       : Encarregat [ Jorda, Toni | eeee | 2004-06-28 | 19 | 4000.0€ ]
+
+
