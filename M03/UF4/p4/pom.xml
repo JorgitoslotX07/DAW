@@ -19,8 +19,47 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.12.10</version> <!-- Actualiza a una versión compatible -->
+		</dependency>
+
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.13.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.13.0</version>
 		</dependency>
 
 		<dependency>
@@ -34,24 +73,32 @@
 			<scope>test</scope>
 		</dependency>
 	
-   <dependency>
-     <groupId>com.heavenark.infrastructure</groupId>
-     <artifactId>ark-web</artifactId>
-     <version>3.0.3</version>
-   </dependency>
- 
-   <dependency>
-     <groupId>com.atlan</groupId>
-     <artifactId>atlan-java</artifactId>
-     <version>1.10.1</version>
-   </dependency>
- 
-   <dependency>
-     <groupId>org.antlr</groupId>
-     <artifactId>antlr4-runtime</artifactId>
-     <version>4.7.2</version>
-   </dependency>
- </dependencies>
+	   <dependency>
+	     <groupId>com.heavenark.infrastructure</groupId>
+	     <artifactId>ark-web</artifactId>
+	     <version>3.0.3</version>
+	   </dependency>
+	 
+	   <dependency>
+	     <groupId>com.atlan</groupId>
+	     <artifactId>atlan-java</artifactId>
+	     <version>1.10.1</version>
+	   </dependency>
+	 
+	   <dependency>
+	     <groupId>org.antlr</groupId>
+	     <artifactId>antlr4-runtime</artifactId>
+	     <version>4.7.2</version>
+	   </dependency>
+	 
+	   <!--
+	   <dependency>
+	     <groupId>org.mongodb</groupId>
+	     <artifactId>mongo-java-driver</artifactId>
+	     <version>3.11.0</version>
+	   </dependency>
+	   -->
+	 </dependencies>
 
 	<build>
 		<plugins>
