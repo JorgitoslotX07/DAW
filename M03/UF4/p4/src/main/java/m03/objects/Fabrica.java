@@ -1,6 +1,8 @@
-package m03.uf4.p4.p4.objects;
+package m03.objects;
 
 import java.util.List;
+
+import m03.utils.converters.Complement;
 
 public class Fabrica extends Negoci {
     public Fabrica(String identificador) {
@@ -8,25 +10,24 @@ public class Fabrica extends Negoci {
     }
 
     @Override
-public void afegirTreballador(Treballador treballador) {
-    List<String> dnis = obtenerDnis();
+    public void afegirTreballador(Treballador treballador) {
+        List<String> dnis = obtenerDnis();
 
-    if (!dnis.contains(treballador.getDni())) {
-        List<Treballador> llistaTreballadors = getLlistaTreballadors();
-        
-        boolean uno = true;
-        for (int i = 0; i < llistaTreballadors.size(); i++) {
-            if (llistaTreballadors.get(i) == null && uno) {
-                llistaTreballadors.set(i, treballador);
-                uno = false;
+        if (!dnis.contains(treballador.getDni())) {
+            List<Treballador> llistaTreballadors = getLlistaTreballadors();
+
+            boolean uno = true;
+            for (int i = 0; i < llistaTreballadors.size(); i++) {
+                if (llistaTreballadors.get(i) == null && uno) {
+                    llistaTreballadors.set(i, treballador);
+                    uno = false;
+                }
             }
-        }
-        
-        treballador.afegirComplement(Complement.MIG);
-        treballador.afegirComplement(Complement.ALT);
-    }
-}
 
+            treballador.afegirComplement(Complement.MIG);
+            treballador.afegirComplement(Complement.ALT);
+        }
+    }
 
     @Override
     public String toString() {
@@ -38,7 +39,7 @@ public void afegirTreballador(Treballador treballador) {
         if (!getLlistaTreballadors().isEmpty()) {
             result.append(toStringTreballadors());
         }
-        
+
         return result.toString();
     }
 
@@ -55,12 +56,12 @@ public void afegirTreballador(Treballador treballador) {
                         .append(i)
                         .append(" - ");
 
-                if (treballador instanceof Encarregat) {
-                    result.append(((Encarregat) treballador).toString());
-                        
+                if (treballador instanceof EncarregatOld) {
+                    result.append(((EncarregatOld) treballador).toString());
+
                 } else {
                     result.append(treballador.toString())
-                    .append("\n");
+                            .append("\n");
                 }
             }
         }

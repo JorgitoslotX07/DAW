@@ -1,22 +1,22 @@
-package m03.uf4.p4.p4.objects;
+package m03.objects;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Encarregat extends Treballador {
+public class EncarregatOld extends Treballador {
     private double souExtra;
     private List<Treballador> llistaTreballadors;
 
-    public Encarregat() {
+    public EncarregatOld() {
         super();
         this.souExtra = 0;
         this.llistaTreballadors = new ArrayList<>();
     }
 
-    public Encarregat(String nom, String cognoms, String dni, 
-                      LocalDate dataNaixement, LocalDate dataIniciContracte, 
-                      double salariBase, double souExtra) {
+    public EncarregatOld(String nom, String cognoms, String dni,
+            LocalDate dataNaixement, LocalDate dataIniciContracte,
+            double salariBase, double souExtra) {
         super(nom, cognoms, dni, dataNaixement, dataIniciContracte, salariBase);
         this.souExtra = souExtra;
         this.llistaTreballadors = new ArrayList<>();
@@ -58,8 +58,8 @@ public class Encarregat extends Treballador {
         List<String> dnis = obtenerDnis();
 
         if (!dnis.contains(treballador.getDni()) && !treballador.getDni().equals(super.getDni())) {
-            if (treballador instanceof Encarregat) {
-                if (treballadorContieneDni((Encarregat) treballador, super.getDni())) {
+            if (treballador instanceof EncarregatOld) {
+                if (treballadorContieneDni((EncarregatOld) treballador, super.getDni())) {
                     return false;
                 }
             }
@@ -69,17 +69,17 @@ public class Encarregat extends Treballador {
         return false;
     }
 
-    private boolean treballadorContieneDni(Encarregat encarregat, String dniBuscado) {
+    private boolean treballadorContieneDni(EncarregatOld encarregat, String dniBuscado) {
         for (Treballador trabaja : encarregat.getLlistaTreballadors()) {
             if (trabaja != null) {
                 if (trabaja.getDni().equals(dniBuscado)) {
                     return true;
-                } else if (trabaja instanceof Encarregat) {
-                    if (treballadorContieneDni((Encarregat) trabaja, dniBuscado)) {
+                } else if (trabaja instanceof EncarregatOld) {
+                    if (treballadorContieneDni((EncarregatOld) trabaja, dniBuscado)) {
                         return true;
                     }
                 }
-            }            
+            }
         }
         return false;
     }
@@ -96,8 +96,8 @@ public class Encarregat extends Treballador {
         int nivell = 0;
         int newNivell = 0;
         for (Treballador treballador : llistaTreballadors) {
-            if (treballador instanceof Encarregat && treballador != null) {
-                newNivell = contarNivellsEncarregats((Encarregat) treballador);
+            if (treballador instanceof EncarregatOld && treballador != null) {
+                newNivell = contarNivellsEncarregats((EncarregatOld) treballador);
                 if (newNivell > nivell) {
                     nivell = newNivell;
                 }
@@ -106,14 +106,14 @@ public class Encarregat extends Treballador {
         return nivell + 1;
     }
 
-    private int contarNivellsEncarregats(Encarregat encarregat) {
+    private int contarNivellsEncarregats(EncarregatOld encarregat) {
         int nivells = 0;
         int newNivells = 0;
         for (Treballador subencarregat : encarregat.getLlistaTreballadors()) {
-            if (subencarregat instanceof Encarregat && subencarregat != null) {   
-                newNivells += contarNivellsEncarregats((Encarregat) subencarregat);
+            if (subencarregat instanceof EncarregatOld && subencarregat != null) {
+                newNivells += contarNivellsEncarregats((EncarregatOld) subencarregat);
                 if (newNivells > nivells) {
-                    nivells= newNivells;
+                    nivells = newNivells;
                 }
             }
         }
@@ -124,23 +124,22 @@ public class Encarregat extends Treballador {
         }
     }
 
-
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("Encarregat [ ")
-            .append(getCognoms())
-            .append(", ")
-            .append(getNom())
-            .append(" | ")
-            .append(getDni())
-            .append(" | ")
-            .append(getDataNaixement())
-            .append(" | ")
-            .append(getEdat())
-            .append(" | ")
-            .append(getSalariBase())
-            .append("€ ]\n");
+                .append(getCognoms())
+                .append(", ")
+                .append(getNom())
+                .append(" | ")
+                .append(getDni())
+                .append(" | ")
+                .append(getDataNaixement())
+                .append(" | ")
+                .append(getEdat())
+                .append(" | ")
+                .append(getSalariBase())
+                .append("€ ]\n");
         if (lengthLlistaTreballadors() != 0) {
             result.append(toStringEmpleats());
         } else {
@@ -152,32 +151,32 @@ public class Encarregat extends Treballador {
 
     private String toStringEmpleats() {
         StringBuilder result = new StringBuilder();
-    
+
         result.append("Llista treballadors de [ ")
-            .append(getDni())
-            .append(" ]: {\n");
-    
+                .append(getDni())
+                .append(" ]: {\n");
+
         for (int i = 0; i < llistaTreballadors.size(); i++) {
             Treballador treballador = llistaTreballadors.get(i);
             if (treballador != null) {
                 result.append("\t")
-                    .append(i)
-                    .append(" - ");
-                
-                if (treballador instanceof Encarregat) {
-                    result.append(((Encarregat) treballador).toString());
-                        
+                        .append(i)
+                        .append(" - ");
+
+                if (treballador instanceof EncarregatOld) {
+                    result.append(((EncarregatOld) treballador).toString());
+
                 } else {
                     result.append(treballador.toString())
-                    .append("\n");
+                            .append("\n");
                 }
             }
         }
         result.append("}\n\n");
-    
+
         return result.toString();
     }
-    
+
     private int lengthLlistaTreballadors() {
         return llistaTreballadors.size();
     }

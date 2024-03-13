@@ -1,4 +1,4 @@
-package m03.uf4.p4.p4.objects;
+package m03.objects;
 
 import java.util.ArrayList;
 
@@ -22,8 +22,8 @@ public class Gestor implements InterfaceGestor {
         boolean transferenciaExitosa = n2.afegirTreballadorReturn(treballador);
 
         if (transferenciaExitosa) {
-            if (treballador instanceof Encarregat) {
-                ((Encarregat) treballador).setLlistaTreballadors(new ArrayList<>()); 
+            if (treballador instanceof EncarregatOld) {
+                ((EncarregatOld) treballador).setLlistaTreballadors(new ArrayList<>());
             }
 
             n1.borrarTreballador(treballador);
@@ -34,7 +34,7 @@ public class Gestor implements InterfaceGestor {
         }
     }
 
-    public boolean transferirTreballadorEncarregat(Negoci n1, Encarregat n2, String dni) {
+    public boolean transferirTreballadorEncarregat(Negoci n1, EncarregatOld n2, String dni) {
         Treballador treballador = null;
 
         for (Treballador t : n1.getLlistaTreballadors()) {
@@ -52,8 +52,8 @@ public class Gestor implements InterfaceGestor {
         boolean transferenciaExitosa = n2.afegirTreballador(treballador);
 
         if (transferenciaExitosa) {
-            if (treballador instanceof Encarregat) {
-                ((Encarregat) treballador).setLlistaTreballadors(new ArrayList<>()); 
+            if (treballador instanceof EncarregatOld) {
+                ((EncarregatOld) treballador).setLlistaTreballadors(new ArrayList<>());
             }
 
             n1.borrarTreballador(treballador);

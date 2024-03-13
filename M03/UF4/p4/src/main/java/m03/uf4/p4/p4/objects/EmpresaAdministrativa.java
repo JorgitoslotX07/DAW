@@ -10,20 +10,12 @@ public class EmpresaAdministrativa extends Negoci {
     //@Override
     public void afegirTreballador(Treballador treballador) {
         List<String> dnis = super.obtenerDnis();
-        Treballador[] llistaTreballadors = getLlistaTreballadors();
+        List<Treballador> llistaTreballadors = getLlistaTreballadors();
 
         if (!dnis.contains(treballador.getDni())) {
-            boolean uno = true;
-            for (int i = 0; i < llistaTreballadors.length; i++) {
-                if (llistaTreballadors[i] == null && uno) {
-                    llistaTreballadors[i] = treballador;
-                    uno = false;
-                }
-            }
+            llistaTreballadors.add(treballador);
+            treballador.afegirComplement(Complement.BAIX);
         }
-        setLlistaTreballadors(llistaTreballadors);
-        
-        treballador.afegirComplement(Complement.BAIX);
     }
 
     @Override
@@ -33,7 +25,7 @@ public class EmpresaAdministrativa extends Negoci {
                 .append("Identificador: ").append(getIdentificador()).append(" | ")
                 .append("Contador de Empleados: ").append(getContadorEmpleats()).append(" | ")
                 .append("Salario Promedio: ").append(calcularSalariMitja()).append("€ ]\n");
-        if (getLlistaTreballadors().length > 0) {
+        if (!getLlistaTreballadors().isEmpty()) {
             result.append(toStringTreballadors());
         }
         
@@ -45,8 +37,9 @@ public class EmpresaAdministrativa extends Negoci {
 
         result.append("Lista de Trabajadores:\n");
 
-        for (int i = 0; i < getLlistaTreballadors().length; i++) {
-            Treballador treballador = getLlistaTreballadors()[i];
+        List<Treballador> llistaTreballadors = getLlistaTreballadors();
+        for (int i = 0; i < llistaTreballadors.size(); i++) {
+            Treballador treballador = llistaTreballadors.get(i);
             if (treballador != null) {
                 result.append("\t")
                         .append(i)

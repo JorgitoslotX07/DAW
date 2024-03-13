@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<treballadors>
+    <treballador idTreballador="92b03ea1-a2b5-475b-9d81-d13f50eb1114" indEncarregat="false">
+        <nom>Gemma</nom>
+        <cognoms>Messi Andorra</cognoms>
+        <dni>12345678Z</dni>
+        <dataNaixement>01/01/2001</dataNaixement>
+        <salari>1200.0</salari>
+        <souExtra>0.0</souExtra>
+    </treballador>
+    <treballador idTreballador="6a9d50b4-e064-4fa8-b3b7-9afc3573f451" indEncarregat="false">
+        <nom>Josep</nom>
+        <cognoms>Perez Hernandez</cognoms>
+        <dni>12312312V</dni>
+        <dataNaixement>02/02/2002</dataNaixement>
+        <salari>1000.0</salari>
+        <souExtra>0.0</souExtra>
+    </treballador>
+    <treballador idTreballador="c48bf935-676a-4444-a3a6-f87c63f88d68" indEncarregat="false">
+        <nom>Laura</nom>
+        <cognoms>Gonzalez Ronaldo</cognoms>
+        <dni>00000000T</dni>
+        <dataNaixement>03/03/2003</dataNaixement>
+        <salari>1000.0</salari>
+        <souExtra>0.0</souExtra>
+    </treballador>
+    <treballador idTreballador="08a77433-18d0-459e-a6cf-35c184f00e30" indEncarregat="true">
+        <nom>Jojefa</nom>
+        <cognoms>Izaro José</cognoms>
+        <dni>22222222T</dni>
+        <dataNaixement>05/05/2005</dataNaixement>
+        <salari>5000.0</salari>
+        <souExtra>2000.0</souExtra>
+    </treballador>
+    <treballador idTreballador="ec68c675-c085-4a85-bc42-08e11d761db2" indEncarregat="true">
+        <nom>Toni</nom>
+        <cognoms>Jorda</cognoms>
+        <dni>22332211T</dni>
+        <dataNaixement>28/06/2004</dataNaixement>
+        <salari>2500.0</salari>
+        <souExtra>500.0</souExtra>
+    </treballador>
+    <treballador idTreballador="5c8ca3b1-8f9d-42e1-a4df-62d885713cfd" indEncarregat="true">
+        <nom>Nuevo</nom>
+        <cognoms>Trabajador</cognoms>
+        <dni>12345578A</dni>
+        <dataNaixement>01/01/1990</dataNaixement>
+        <salari>2500.0</salari>
+        <souExtra>500.0</souExtra>
+    </treballador>
+    <treballador idTreballador="4d4aab24-e2b9-4256-a0ba-957fa0bd5e5d" indEncarregat="true">
+        <nom>e</nom>
+        <cognoms>e</cognoms>
+        <dni>ee</dni>
+        <dataNaixement>01/01/1990</dataNaixement>
+        <salari>1000.0</salari>
+        <souExtra>500.0</souExtra>
+    </treballador>
+    <treballador idTreballador="f72c3e25-94c5-49d0-98fc-d850e2e38e57" indEncarregat="false">
+        <nom>ee</nom>
+        <cognoms>ee</cognoms>
+        <dni>tt</dni>
+        <dataNaixement>01/01/1990</dataNaixement>
+        <salari>1000.0</salari>
+        <souExtra>0.0</souExtra>
+    </treballador>
+    <treballador idTreballador="3aece20b-3edd-4757-84da-eaeabd6a4b46" indEncarregat="true">
+        <nom>Toni</nom>
+        <cognoms>Jorda</cognoms>
+        <dni>eeee</dni>
+        <dataNaixement>28/06/2004</dataNaixement>
+        <salari>4000.0</salari>
+        <souExtra>500.0</souExtra>
+    </treballador>
+</treballadors>

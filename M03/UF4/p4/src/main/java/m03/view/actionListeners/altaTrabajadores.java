@@ -5,11 +5,17 @@ import javax.swing.table.DefaultTableModel;
 import org.elasticsearch.client.RestClient;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 import java.util.ArrayList;
-import m03.uf4.p4.p4.objects.Encarregat;
-import m03.uf4.p4.p4.objects.Treballador;
+
+import m03.controllers.TreballadorController;
+import m03.repositories.repositoriesImpl.XMLFileTreballadorRepository;
+import m03.services.TreballadorService;
+import m03.objects.Encarregat;
+import m03.objects.Treballador;
 import m03.view.Ventana;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class altaTrabajadores extends JFrame {
     private JTextField tNom;
@@ -20,8 +26,14 @@ public class altaTrabajadores extends JFrame {
     private JTextField tSalariBase;
     private JCheckBox cbEncarregat;
 
-    public altaTrabajadores(Encarregat encarregat) {
+    public altaTrabajadores() {
         super("Agregar Trabajador");
+
+        XMLFileTreballadorRepository XMLFileTreballadorRepository = new XMLFileTreballadorRepository();
+        TreballadorService treballadorService = new TreballadorService(XMLFileTreballadorRepository);
+        TreballadorController TreballadorController = new TreballadorController(treballadorService);
+
+        List<Treballador> lis = TreballadorController.getLlistaTreballadors();
 
         setSize(600, 230);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,11 +63,6 @@ public class altaTrabajadores extends JFrame {
         p1.add(lDataNaixement);
         p1.add(tDataNaixement);
 
-        JLabel lDataIniciContracte = new JLabel("Fecha de Inicio de Contrato (YYYY-MM-DD): ");
-        tDataIniciContracte = new JTextField();
-        p1.add(lDataIniciContracte);
-        p1.add(tDataIniciContracte);
-
         JLabel lSalariBase = new JLabel("Salario Base: ");
         tSalariBase = new JTextField();
         p1.add(lSalariBase);
@@ -70,35 +77,29 @@ public class altaTrabajadores extends JFrame {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (validarDades()) {
-                    if (cbEncarregat.isSelected()) {
-                        Treballador treNew = new Treballador(
-                            tNom.getText(),
-                            tCognoms.getText(),
-                            tDni.getText(),
-                            LocalDate.parse(tDataNaixement.getText()),
-                            LocalDate.parse(tDataIniciContracte.getText()),
-                            Double.parseDouble(tSalariBase.getText())
-                        );
-                        encarregat.afegirTreballador(treNew);
-                    } else {
-                        Encarregat encNew = new Encarregat(
-                            tNom.getText(),
-                            tCognoms.getText(),
-                            tDni.getText(),
-                            LocalDate.parse(tDataNaixement.getText()),
-                            LocalDate.parse(tDataIniciContracte.getText()),
-                            Double.parseDouble(tSalariBase.getText()),
-                            500
-                        );
-                        encarregat.afegirTreballador(encNew);
-                    }
-                    
-                    dispose();
-                    Ventana ventana = new Ventana(encarregat);
-                    ventana.setVisible(true);
-                    
-                }
+                XMLFileTreballadorRepository XMLFileTreballadorRepository = new XMLFileTreballadorRepository();
+                TreballadorService treballadorService = new TreballadorService(XMLFileTreballadorRepository);
+                TreballadorController TreballadorController = new TreballadorController(treballadorService);
+
+                String fechaString = tDataNaixement.getText();
+                LocalDate fechaNacimiento = LocalDate.parse(fechaString,
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                TreballadorController.addTreballador(
+                        tNom.getText(),
+                        tCognoms.getText(),
+                        tDni.getText(),
+                        String.valueOf(fechaNacimiento.getDayOfMonth()),
+                        String.valueOf(fechaNacimiento.getMonthValue()),
+                        String.valueOf(fechaNacimiento.getYear()),
+                        tSalariBase.getText(),
+                        "0",
+                        cbEncarregat.isSelected());
+
+                dispose();
+                Ventana ventana = new Ventana();
+                ventana.setVisible(true);
+
             }
         });
 
@@ -110,8 +111,8 @@ public class altaTrabajadores extends JFrame {
 
     private boolean validarDades() {
         if (tNom.getText().isEmpty() || tCognoms.getText().isEmpty() || tDni.getText().isEmpty() ||
-            tDataNaixement.getText().isEmpty() || tDataIniciContracte.getText().isEmpty() || 
-            tSalariBase.getText().isEmpty()) {
+                tDataNaixement.getText().isEmpty() || tDataIniciContracte.getText().isEmpty() ||
+                tSalariBase.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Falten dades");
             return false;
         }

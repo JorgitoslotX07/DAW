@@ -1,44 +1,36 @@
-package m03.uf4.p4.p4.objects;
+package m03.objects;
+
+import m03.utils.converters.Complement;
 
 import java.util.List;
 
-public class Fabrica extends Negoci {
-    public Fabrica(String identificador) {
+public class EmpresaAdministrativa extends Negoci {
+    public EmpresaAdministrativa(String identificador) {
         super(identificador);
     }
 
-    @Override
-public void afegirTreballador(Treballador treballador) {
-    List<String> dnis = obtenerDnis();
-
-    if (!dnis.contains(treballador.getDni())) {
+    // @Override
+    public void afegirTreballador(Treballador treballador) {
+        List<String> dnis = super.obtenerDnis();
         List<Treballador> llistaTreballadors = getLlistaTreballadors();
-        
-        boolean uno = true;
-        for (int i = 0; i < llistaTreballadors.size(); i++) {
-            if (llistaTreballadors.get(i) == null && uno) {
-                llistaTreballadors.set(i, treballador);
-                uno = false;
-            }
-        }
-        
-        treballador.afegirComplement(Complement.MIG);
-        treballador.afegirComplement(Complement.ALT);
-    }
-}
 
+        if (!dnis.contains(treballador.getDni())) {
+            llistaTreballadors.add(treballador);
+            treballador.afegirComplement(Complement.BAIX);
+        }
+    }
 
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Fabrica [ ")
+        result.append("Empresa Administrativa [ ")
                 .append("Identificador: ").append(getIdentificador()).append(" | ")
                 .append("Contador de Empleados: ").append(getContadorEmpleats()).append(" | ")
                 .append("Salario Promedio: ").append(calcularSalariMitja()).append("€ ]\n");
         if (!getLlistaTreballadors().isEmpty()) {
             result.append(toStringTreballadors());
         }
-        
+
         return result.toString();
     }
 
@@ -55,12 +47,12 @@ public void afegirTreballador(Treballador treballador) {
                         .append(i)
                         .append(" - ");
 
-                if (treballador instanceof Encarregat) {
-                    result.append(((Encarregat) treballador).toString());
-                        
+                if (treballador instanceof EncarregatOld) {
+                    result.append(((EncarregatOld) treballador).toString());
+
                 } else {
                     result.append(treballador.toString())
-                    .append("\n");
+                            .append("\n");
                 }
             }
         }
