@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import daw.m3.uf6.objects.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class RepositoriJDBCImpl {
     private static final Logger logger = LogManager.getLogger(RepositoriJDBCImpl.class);
@@ -25,10 +27,12 @@ public class RepositoriJDBCImpl {
     Scanner scanner = new Scanner(System.in);
 
     
-    public void getAllActors() {
+    public List<Actor> getAllActors() {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
+
+        ArrayList<Actor> actorList = new ArrayList<>();
 
         try {
             
@@ -40,7 +44,6 @@ public class RepositoriJDBCImpl {
             
             String sql = "SELECT * FROM actor";
             rs = stmt.executeQuery(sql);
-            
             
             
             while (rs.next()) {
@@ -58,7 +61,10 @@ public class RepositoriJDBCImpl {
                 act.setSecondName(lastName);
                 act.setLastUpdate(lastUpdate);
                 
-                System.out.println("ID: " + id + ", First Name: " + firstName + ", Last Name: " + lastName + ", Last Update: " + lastUpdateStr);
+                //System.out.println("ID: " + id + ", First Name: " + firstName + ", Last Name: " + lastName + ", Last Update: " + lastUpdateStr);
+
+                actorList.add(act);
+                
             }
         } catch (SQLException e) {
             logger.error("Error al obtener todos los actores desde la base de datos.", e);
@@ -72,6 +78,7 @@ public class RepositoriJDBCImpl {
                 e.printStackTrace();
             }
         }
+        return actorList;
     }
     
     public void createActor() {
@@ -175,6 +182,7 @@ public class RepositoriJDBCImpl {
             }
             //scanner.close();
         }
+        
     }
    
     public void getActorByName() {

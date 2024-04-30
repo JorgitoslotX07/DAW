@@ -6,7 +6,8 @@ public enum ErrorMessage {
 	E001("E001",HttpStatus.BAD_REQUEST,"Error en la petició rebuda d'alta usuari"),
 	E002("E002",HttpStatus.BAD_REQUEST,"Error en la petició rebuda"),
 	E300("E300",HttpStatus.INTERNAL_SERVER_ERROR,"Error intern executant la petició"),
-	E404("E404",HttpStatus.NOT_FOUND,"No s'han trobat dades coincidents");
+	E404("E404",HttpStatus.NOT_FOUND,"No s'han trobat dades coincidents"),
+	E500("E500",HttpStatus.NOT_FOUND,"No");
 
 	private final String code;
 	private final HttpStatus httpStatus;
