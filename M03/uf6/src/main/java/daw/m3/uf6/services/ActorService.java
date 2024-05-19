@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -21,7 +22,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 import daw.m3.uf6.objects.Actor;
+import daw.m3.uf6.repositories.ActorRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Optional;
+
 
 @Service
 public class ActorService {
@@ -32,8 +39,8 @@ public class ActorService {
     private static final String USER = "tjorda";
     private static final String PASSWORD = "tjorda";
 
-	//@Autowired
-    //private ActorRepositoryJPA actorRepositoryJPA;
+	@Autowired
+    private ActorRepositoryJPA actorRepositoryJPA;
 
 	//@Autowired
 	//RepositoriJDBCImpl jdbcRepo;
@@ -95,8 +102,8 @@ public class ActorService {
 		//Cridar al jdcbRepo per obtenir usuaris i processar-ne la resposta
 		//throw new UnsupportedOperationException("Mètode no implementat");
 
-		return actorList;
-		//return actorRepositoryJPA.findAll();
+		//return actorList;S
+		return actorRepositoryJPA.findAll();
 	}
 	
 	public Actor createActor(Actor a) {
@@ -104,23 +111,30 @@ public class ActorService {
 		//Cridar al jdcbRepo per crear Actor
 		//throw new UnsupportedOperationException("Mètode no implementat");
 
-		Connection conn = null;
+        Timestamp currentTime = Timestamp.from(Instant.now());
+        Connection conn = null;
         PreparedStatement pstmt = null;
-    
-        try {
+
+		try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
     
-            String sql = "INSERT INTO actor (first_name, last_name) VALUES (?, ?)";
+            // Declaración SQL actualizada para incluir last_update
+            String sql = "INSERT INTO actor (first_name, last_update, last_name) VALUES (?, ?, ?)";
             pstmt = conn.prepareStatement(sql);
-            
+    
+            // Configuración de los valores en la declaración preparada
             pstmt.setString(1, a.getFirstName());
-            pstmt.setString(2, a.getSecondName());
+    
+            // Usar la fecha y hora actual para last_update
+            pstmt.setTimestamp(2, currentTime);
+    
+            pstmt.setString(3, a.getSecondName());
     
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("¡Nuevo actor insertado correctamente!");
+                logger.info("¡Nuevo actor insertado correctamente!");
             } else {
-                System.out.println("Error al insertar el actor.");
+                logger.error("Error al insertar el actor.");
             }
         } catch (SQLException e) {
             logger.error("Error al crear un nuevo actor en la base de datos.", e);
@@ -132,155 +146,51 @@ public class ActorService {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            //scanner.close();
         }
-
-		return a;
-		//return actorRepositoryJPA.save(a);
+    
+        LocalDateTime localDateTime = currentTime.toLocalDateTime();
+        a.setLastUpdate(localDateTime);
+    
+        // Persistir usando el repositorio JPA
+        return actorRepositoryJPA.save(a);
 	}
 	
-	public Actor updateActorById(Long id, Actor a) {
-        //Scanner scanner = new Scanner(System.in);
-    
-        
-        System.out.println("Introduce el ID del actor que deseas actualizar:");
-    
-        Connection conn = null;
-        PreparedStatement pstmtSelect = null;
-        PreparedStatement pstmtUpdate = null;
-        ResultSet rs = null;
+    public Actor updateActorById(Long id, Actor a) {
+        Optional<Actor> optionalActor = actorRepositoryJPA.findById(id.intValue());
 
-        try {
-            
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        if (optionalActor.isPresent()) {
+            Actor existingActor = optionalActor.get();
+            existingActor.setFirstName(a.getFirstName());
+            existingActor.setSecondName(a.getSecondName());
+            existingActor.setLastUpdate(LocalDateTime.now()); // Asegúrate de actualizar el campo lastUpdate
 
-            String selectSql = "SELECT first_name FROM actor WHERE actor_id = ?";
-            pstmtSelect = conn.prepareStatement(selectSql);
-            pstmtSelect.setLong(1, id);
-    
-            
-            rs = pstmtSelect.executeQuery();
-    
-            if (rs.next()) {
-    
-                String updateSql = "UPDATE actor SET first_name = ?, last_name = ? WHERE actor_id = ?";
-                pstmtUpdate = conn.prepareStatement(updateSql);
-                pstmtUpdate.setString(1, a.getFirstName());
-                pstmtUpdate.setString(2, a.getSecondName());
-                pstmtUpdate.setLong(3, id);
-    
-                int rowsAffected = pstmtUpdate.executeUpdate();
-                if (rowsAffected > 0) {
-                    System.out.println("¡Actor actualizado correctamente!");
-                } else {
-                    System.out.println("No se pudo actualizar el actor.");
-                }
-            } else {
-                System.out.println("No se encontró ningún actor con el ID proporcionado.");
-            }
-        } catch (SQLException e) {
-            logger.error("Error al actualizar un actor por ID en la base de datos.", e);
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (pstmtSelect != null) pstmtSelect.close();
-                if (pstmtUpdate != null) pstmtUpdate.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            Actor updatedActor = actorRepositoryJPA.save(existingActor);
+            System.out.println("¡Actor actualizado correctamente!");
+            return updatedActor;
+        } else {
+            System.out.println("No se encontró ningún actor con el ID proporcionado.");
+            return null;
         }
-
-		return a;
     }
 
 	public Boolean deleteActorById(Long id) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		Boolean deleted = false;
-	
-		try {
-			conn = DriverManager.getConnection(URL, USER, PASSWORD);
-			String sql = "DELETE FROM actor WHERE actor_id = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, id);
-	
-			int rowsAffected = pstmt.executeUpdate();
-			if (rowsAffected > 0) {
-				logger.info("Actor borrado correctamente.");
-				deleted = true;
-			} else {
-				logger.info("No se encontró ningún actor con el ID proporcionado.");
-			}
-		} catch (SQLException e) {
-			logger.error("Error al borrar un actor por ID en la base de datos.", e);
-		} finally {
-			try {
-				if (pstmt != null) pstmt.close();
-				if (conn != null) conn.close();
-			} catch (SQLException e) {
-				logger.error("Error al cerrar la conexión.", e);
-			}
-		}
-		return deleted;
-	}
+        if (actorRepositoryJPA.existsById(id.intValue())) {
+            actorRepositoryJPA.deleteById(id.intValue());
+            logger.info("Actor borrado correctamente.");
+            return true;
+        } else {
+            logger.info("No se encontró ningún actor con el ID proporcionado.");
+            return false;
+        }
+    }
 	
 	public Actor getActorById(Long id) {
-        //Scanner scanner = new Scanner(System.in);
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-
-		Actor actor = new Actor();
-        
-        try {
-            
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            
-           
-            String sql = "SELECT * FROM actor WHERE actor_id = ?";
-            pstmt = conn.prepareStatement(sql);
-            
-            
-            pstmt.setLong(1, id);
-        
-            
-            rs = pstmt.executeQuery();
-            
-            
-            while (rs.next()) {
-                
-    
-                int ids = rs.getInt("actor_id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
-                String lastUpdateStr = rs.getString("last_update");
-    
-                LocalDateTime lastUpdate = LocalDateTime.parse(lastUpdateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    
-                actor.setIdActor(ids);
-                actor.setFirstName(firstName);
-                actor.setSecondName(lastName);
-                actor.setLastUpdate(lastUpdate);
-                
-                
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error al obtener un actor por ID desde la base de datos.", e);        } finally {
-            
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            //scanner.close();
+        Optional<Actor> optionalActor = actorRepositoryJPA.findById(id.intValue());
+        if (optionalActor.isPresent()) {
+            return optionalActor.get();
+        } else {
+            logger.info("No se encontró ningún actor con el ID proporcionado.");
+            return null; // O podrías lanzar una excepción personalizada
         }
-
-		return actor;
-        
     }
 }
