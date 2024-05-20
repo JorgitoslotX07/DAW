@@ -17,8 +17,11 @@ import daw.m3.uf6.objects.Actor;
 import daw.m3.uf6.objects.http.AppErrorResponse;
 import daw.m3.uf6.objects.http.ErrorMessage;
 import daw.m3.uf6.objects.http.RequestActor;
+import daw.m3.uf6.objects.http.RequestCategory;
 import daw.m3.uf6.objects.http.ResponseActor;
+import daw.m3.uf6.objects.http.ResponseCategory;
 import daw.m3.uf6.services.ActorService;
+import daw.m3.uf6.services.CategoryService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +48,10 @@ public class AppController {
 	
 	@Autowired
 	private ActorService actorService;
+
+	@Autowired
+	private CategoryService categoryService;
+	
 
 	//@Autowired
 	//private RepositoriJDBCImpl repositoriJDBCImpl;
@@ -221,6 +228,21 @@ public class AppController {
         ResponseActor responseActor = actorService.insertMongoDB(requestActor);
         if (responseActor != null) {
             return new ResponseEntity<>(responseActor, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+	@PostMapping("/newCategory")
+    public ResponseEntity<ResponseCategory> newCategory(@PathVariable String tipusBD, @RequestBody RequestCategory requestCategory) {
+        // Lógica para insertar en MongoDB utilizando ActorService
+		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        ResponseCategory responseCategory = categoryService.newCategory(tipusBD, requestCategory);
+        if (responseCategory != null) {
+            return new ResponseEntity<>(responseCategory, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
