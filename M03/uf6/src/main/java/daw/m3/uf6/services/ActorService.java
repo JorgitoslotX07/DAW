@@ -18,16 +18,20 @@ import java.util.Scanner;
 import java.sql.PreparedStatement;
 
 import daw.m3.uf6.objects.*;
+import daw.m3.uf6.objects.http.RequestActor;
+import daw.m3.uf6.objects.http.ResponseActor;
+
 import java.util.List;
 import java.util.ArrayList;
 
-import daw.m3.uf6.objects.Actor;
+import daw.m3.uf6.repositories.ActorMongoRepo;
 import daw.m3.uf6.repositories.ActorRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Optional;
+
 
 
 @Service
@@ -42,11 +46,11 @@ public class ActorService {
 	@Autowired
     private ActorRepositoryJPA actorRepositoryJPA;
 
-	//@Autowired
-	//RepositoriJDBCImpl jdbcRepo;
+    @Autowired
+    private ActorMongoRepo actorMongoRepo;
 	
 	public List<Actor> getAllActors(){
-
+/*
 		Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -98,7 +102,7 @@ public class ActorService {
             }
         }
         
-		logger.info("Mètode getAllActors No implementat");
+		logger.info("Mètode getAllActors No implementat");*/
 		//Cridar al jdcbRepo per obtenir usuaris i processar-ne la resposta
 		//throw new UnsupportedOperationException("Mètode no implementat");
 
@@ -112,7 +116,7 @@ public class ActorService {
 		//throw new UnsupportedOperationException("Mètode no implementat");
 
         Timestamp currentTime = Timestamp.from(Instant.now());
-        Connection conn = null;
+        /*Connection conn = null;
         PreparedStatement pstmt = null;
 
 		try {
@@ -146,7 +150,7 @@ public class ActorService {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     
         LocalDateTime localDateTime = currentTime.toLocalDateTime();
         a.setLastUpdate(localDateTime);
@@ -192,5 +196,105 @@ public class ActorService {
             logger.info("No se encontró ningún actor con el ID proporcionado.");
             return null; // O podrías lanzar una excepción personalizada
         }
+    }
+
+    public ResponseActor insertMongoDB(RequestActor requestActor) {
+        ActorMongoDB actorMongoDB = new ActorMongoDB(requestActor.getFirstName(), requestActor.getSecondName());
+
+        actorMongoDB = actorMongoRepo.save(actorMongoDB);
+
+        ResponseActor responseActor = new ResponseActor();
+        responseActor.setIdActor(actorMongoDB.getId());
+        responseActor.setFirstName(actorMongoDB.getFirstName());
+        responseActor.setSecondName(actorMongoDB.getSecondName());
+        responseActor.setLastUpdate(actorMongoDB.getLastUpdate());
+
+        System.out.println("Nuevo actor insertado en MongoDB:");
+        System.out.println(responseActor);
+
+        return responseActor;
+    }
+
+    public ResponseActor insertActorVariableBD(String tipusBD, RequestActor actorToSave) {
+        if (tipusBD.equals("jdbc")) {
+            Timestamp currentTime = Timestamp.from(Instant.now());
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+
+            try {
+                conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        
+                // Declaración SQL actualizada para incluir last_update
+                String sql = "INSERT INTO actor (first_name, last_update, last_name) VALUES (?, ?, ?)";
+                pstmt = conn.prepareStatement(sql);
+        
+                // Configuración de los valores en la declaración preparada
+                pstmt.setString(1, actorToSave.getFirstName());
+        
+                // Usar la fecha y hora actual para last_update
+                pstmt.setTimestamp(2, currentTime);
+        
+                pstmt.setString(3, actorToSave.getSecondName());
+        
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    logger.info("¡Nuevo actor insertado correctamente!");
+                } else {
+                    logger.error("Error al insertar el actor.");
+                }
+            } catch (SQLException e) {
+                logger.error("Error al crear un nuevo actor en la base de datos.", e);
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (pstmt != null) pstmt.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ResponseActor responseActor = new ResponseActor();
+            responseActor.setFirstName(actorToSave.getFirstName());
+            responseActor.setSecondName(actorToSave.getSecondName());
+            responseActor.setLastUpdate(actorToSave.getLastUpdate());
+
+            return responseActor;
+
+        } else if (tipusBD.equals("jpa")) {
+            Actor actor = new Actor();
+            Timestamp currentTime = Timestamp.from(Instant.now());
+            LocalDateTime localDateTime = currentTime.toLocalDateTime();
+
+            // Set properties from the request object
+            actor.setFirstName(actorToSave.getFirstName());
+            actor.setSecondName(actorToSave.getSecondName());
+            actor.setLastUpdate(localDateTime);
+
+            // Save the actor to the database
+            actorRepositoryJPA.save(actor);
+
+            // Prepare and return the response
+            ResponseActor responseActor = new ResponseActor();
+            responseActor.setFirstName(actor.getFirstName());
+            responseActor.setSecondName(actor.getSecondName());
+            responseActor.setLastUpdate(actor.getLastUpdate());
+
+            return responseActor;
+
+        } else if (tipusBD.equals("mongo")) {
+            ActorMongoDB actorMongoDB = new ActorMongoDB(actorToSave.getFirstName(), actorToSave.getSecondName());
+            actorMongoDB = actorMongoRepo.save(actorMongoDB);
+
+            ResponseActor responseActor = new ResponseActor();
+            responseActor.setIdActor(actorMongoDB.getId());
+            responseActor.setFirstName(actorMongoDB.getFirstName());
+            responseActor.setSecondName(actorMongoDB.getSecondName());
+            responseActor.setLastUpdate(actorMongoDB.getLastUpdate());
+
+            return responseActor;
+        }
+
+        return null;
     }
 }

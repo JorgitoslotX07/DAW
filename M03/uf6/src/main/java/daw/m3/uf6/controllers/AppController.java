@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import daw.m3.uf6.objects.Actor;
 import daw.m3.uf6.objects.http.AppErrorResponse;
 import daw.m3.uf6.objects.http.ErrorMessage;
 import daw.m3.uf6.objects.http.RequestActor;
+import daw.m3.uf6.objects.http.ResponseActor;
 import daw.m3.uf6.services.ActorService;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 //import daw.m3.uf6.repositories.impl.RepositoriJDBCImpl;;
@@ -33,7 +36,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Marti
  *
  */
-@Controller
+//@Controller
+@RestController
+@RequestMapping("/{tipusBD}")
 public class AppController {
 	
 	private static final Logger logger = LogManager.getLogger(AppController.class);
@@ -66,50 +71,7 @@ public class AppController {
         }
 	}
 
-	/* 
-	@PutMapping("/updateActor/{id}")
-    public ResponseEntity<Actor> updateActor(@PathVariable Long id, @RequestBody RequestActor actorUpdateRequest) {
-		HashMap<String,String> validacions = new HashMap<>();
-        if(actorUpdateRequest!=null) {
-			boolean valid = true;
-			if(actorUpdateRequest.getFirstName()==null || actorUpdateRequest.getFirstName().isEmpty() || actorUpdateRequest.getFirstName().isBlank()) {
-				logger.warn("Error validant firstName actor rebut");
-				validacions.put("firstName", "El camp firstName és obligatori i no pot ser buit o espais");
-				valid = false;
-			}
-			if(actorUpdateRequest.getSecondName()==null || actorUpdateRequest.getSecondName().isEmpty() || actorUpdateRequest.getSecondName().isBlank()) {
-				logger.warn("Error validant secondName actor rebut");
-				validacions.put("secondName", "El camp secondName és obligatori i no pot ser buit o espais");
-				valid = false;
-			}
-					
-			if(!valid) {
-				logger.warn("Error en alguna de les validacions, resposta bad request");
-				AppErrorResponse errorResponse = new AppErrorResponse(ErrorMessage.E001.name());
-				errorResponse.setDetails(validacions);
-			    return new ResponseEntity(errorResponse, errorResponse.getHttpCode());
-			}else {
-				logger.info("Usuari validat correctament, procedim a inserir-lo a BDD");
-				Actor actor = new Actor();
-				actor.setFirstName(actorUpdateRequest.getFirstName());
-				actor.setSecondName(actorUpdateRequest.getSecondName());
-				Actor u = actorService.createActor(actor);
-				if(u!=null) {
-					return ResponseEntity.ok(u);
-				}else {
-					AppErrorResponse errorResponse = new AppErrorResponse(ErrorMessage.E300.name());
-					return new ResponseEntity(errorResponse,errorResponse.getHttpCode());
-				}
-			}
-		}else {
-			validacions.put("actor", "Objecte actor totalment buit");
-			AppErrorResponse errorResponse = new AppErrorResponse(ErrorMessage.E001.name());
-			errorResponse.setDetails(validacions);
-		    return new ResponseEntity(errorResponse, errorResponse.getHttpCode());
-		}	
-    }
-	*/
-
+	
 	@PutMapping("/updateActor/{id}")
 	public ResponseEntity<Actor> updateActor(@PathVariable Long id, @RequestBody RequestActor actorUpdateRequest) {
 		try {
@@ -147,11 +109,39 @@ public class AppController {
 	
 
 	@PostMapping("/createActor")
-	public ResponseEntity<Actor> createActor(@RequestBody RequestActor requestActor){
+	public ResponseEntity<ResponseActor> createActor(@PathVariable String tipusBD, @RequestBody RequestActor requestActor){
 		logger.debug("Inici mètode createUser, user rebut[{}]",requestActor);
 		
 		HashMap<String,String> validacions = new HashMap<>();
 		//Inicio les validacions dels diferents camps de l'objecte d'entrada
+		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+		// Validar los campos del objeto RequestActor
+		if (requestActor == null || requestActor.getFirstName() == null || requestActor.getFirstName().isBlank() ||
+				requestActor.getSecondName() == null || requestActor.getSecondName().isBlank()) {
+			return ResponseEntity.badRequest().build();
+		}
+
+		// Crear el objeto Actor a partir del RequestActor
+		Actor actor = new Actor();
+		actor.setFirstName(requestActor.getFirstName());
+		actor.setSecondName(requestActor.getSecondName());
+
+		// Llamar al servicio para crear el actor en la base de datos
+		ResponseActor createdActor = actorService.insertActorVariableBD(tipusBD, requestActor);;
+		
+
+		// Verificar si se creó correctamente
+		if (createdActor != null) {
+			logger.info("Actor creado correctamente en la base de datos");
+			return new ResponseEntity<>(createdActor, HttpStatus.CREATED);
+		} else {
+			logger.error("Error al crear el actor en la base de datos");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+/*
 		if(requestActor!=null) {
 			boolean valid = true;
 			if(requestActor.getFirstName()==null || requestActor.getFirstName().isEmpty() || requestActor.getFirstName().isBlank()) {
@@ -188,7 +178,7 @@ public class AppController {
 			AppErrorResponse errorResponse = new AppErrorResponse(ErrorMessage.E001.name());
 			errorResponse.setDetails(validacions);
 		    return new ResponseEntity(errorResponse, errorResponse.getHttpCode());
-		}		
+		}		*/
 	}
 	
 	@DeleteMapping("/deleteActor")
@@ -224,4 +214,15 @@ public class AppController {
 			    return new ResponseEntity(errorResponse, errorResponse.getHttpCode());
 		}
 	}
+
+	@PostMapping("/insertMongo")
+    public ResponseEntity<ResponseActor> insertMongo(@RequestBody RequestActor requestActor) {
+        // Lógica para insertar en MongoDB utilizando ActorService
+        ResponseActor responseActor = actorService.insertMongoDB(requestActor);
+        if (responseActor != null) {
+            return new ResponseEntity<>(responseActor, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
