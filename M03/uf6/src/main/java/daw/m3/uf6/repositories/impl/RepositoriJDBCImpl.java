@@ -11,20 +11,18 @@ import java.util.Scanner;
 import java.sql.PreparedStatement;
 
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.logging.log4j.LogManager;
 
 import daw.m3.uf6.objects.*;
-import javax.sql.DataSource;
-
 import java.util.List;
 import java.util.ArrayList;
 
 public class RepositoriJDBCImpl {
     private static final Logger logger = LogManager.getLogger(RepositoriJDBCImpl.class);
 
-    @Autowired
-    private DataSource dataSource;
+    private static final String URL = "jdbc:mysql://localhost:3306/m03";
+    private static final String USER = "tjorda";
+    private static final String PASSWORD = "tjorda";
 
     Scanner scanner = new Scanner(System.in);
 
@@ -38,7 +36,7 @@ public class RepositoriJDBCImpl {
 
         try {
             
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             
             
             stmt = conn.createStatement();
@@ -98,7 +96,7 @@ public class RepositoriJDBCImpl {
     
         try {
            
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
     
             String sql = "INSERT INTO actor (first_name, last_name) VALUES (?, ?)";
             pstmt = conn.prepareStatement(sql);
@@ -141,7 +139,7 @@ public class RepositoriJDBCImpl {
         
         try {
             
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             
            
             String sql = "SELECT * FROM actor WHERE actor_id = ?";
@@ -200,7 +198,7 @@ public class RepositoriJDBCImpl {
     
         try {
             
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             
            
             String sql = "SELECT * FROM actor WHERE first_name = ?";
@@ -262,7 +260,7 @@ public class RepositoriJDBCImpl {
         
         try {
            
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
             
            
             String sql = "SELECT f.* FROM actor a " +
@@ -316,7 +314,7 @@ public class RepositoriJDBCImpl {
     
         try {
             
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
             String selectSql = "SELECT first_name FROM actor WHERE actor_id = ?";
             pstmtSelect = conn.prepareStatement(selectSql);
@@ -380,7 +378,7 @@ public class RepositoriJDBCImpl {
         PreparedStatement pstmt = null;
     
         try {
-            conn = dataSource.getConnection();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
     
             
             String sql = "DELETE FROM actor WHERE actor_id = ?";
