@@ -17,9 +17,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.sql.PreparedStatement;
 
+import daw.m3.uf6.DataSourceConfig;
 import daw.m3.uf6.objects.*;
 import daw.m3.uf6.objects.http.RequestActor;
 import daw.m3.uf6.objects.http.ResponseActor;
+import daw.m3.uf6.objects.http.ResponseCategory;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Optional;
 
+import javax.sql.DataSource;
 
 
 @Service
@@ -39,9 +42,12 @@ public class ActorService {
 
 	private static final Logger logger = LogManager.getLogger(ActorService.class);
 
-	private static final String URL = "jdbc:mysql://localhost:3306/m03";
-    private static final String USER = "tjorda";
-    private static final String PASSWORD = "tjorda";
+	//private static final String URL = "jdbc:mysql://localhost:3306/m03";
+    //private static final String USER = "tjorda";
+    //private static final String PASSWORD = "tjorda";
+
+    @Autowired
+    private DataSource dataSource;
 
 	@Autowired
     private ActorRepositoryJPA actorRepositoryJPA;
@@ -218,29 +224,44 @@ public class ActorService {
     public ResponseActor insertActorVariableBD(String tipusBD, RequestActor actorToSave) {
         if (tipusBD.equals("jdbc")) {
             Timestamp currentTime = Timestamp.from(Instant.now());
+            LocalDateTime localDateTime = currentTime.toLocalDateTime();
+        
             Connection conn = null;
             PreparedStatement pstmt = null;
-
+        
             try {
-                conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                conn = dataSource.getConnection();
         
-                // Declaración SQL actualizada para incluir last_update
                 String sql = "INSERT INTO actor (first_name, last_update, last_name) VALUES (?, ?, ?)";
-                pstmt = conn.prepareStatement(sql);
+                pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); // Especificar RETURN_GENERATED_KEYS
         
-                // Configuración de los valores en la declaración preparada
                 pstmt.setString(1, actorToSave.getFirstName());
-        
-                // Usar la fecha y hora actual para last_update
                 pstmt.setTimestamp(2, currentTime);
-        
                 pstmt.setString(3, actorToSave.getSecondName());
         
                 int rowsAffected = pstmt.executeUpdate();
                 if (rowsAffected > 0) {
                     logger.info("¡Nuevo actor insertado correctamente!");
+        
+                    // Recuperar el ID generado
+                    ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        long generatedId = generatedKeys.getLong(1);
+        
+                        ResponseActor responseActor = new ResponseActor();
+                        responseActor.setIdActor(Long.toString(generatedId));  // Convertir a String
+                        responseActor.setFirstName(actorToSave.getFirstName());
+                        responseActor.setSecondName(actorToSave.getSecondName());
+                        responseActor.setLastUpdate(localDateTime);
+        
+                        return responseActor;
+                    } else {
+                        logger.error("No ID obtained for the new Actor.");
+                        throw new SQLException("No ID obtained for the new Actor.");
+                    }
                 } else {
                     logger.error("Error al insertar el actor.");
+                    throw new SQLException("Error al insertar el actor.");
                 }
             } catch (SQLException e) {
                 logger.error("Error al crear un nuevo actor en la base de datos.", e);
@@ -252,30 +273,20 @@ public class ActorService {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            }
-
-            ResponseActor responseActor = new ResponseActor();
-            responseActor.setFirstName(actorToSave.getFirstName());
-            responseActor.setSecondName(actorToSave.getSecondName());
-            responseActor.setLastUpdate(actorToSave.getLastUpdate());
-
-            return responseActor;
-
+            }          
         } else if (tipusBD.equals("jpa")) {
             Actor actor = new Actor();
             Timestamp currentTime = Timestamp.from(Instant.now());
             LocalDateTime localDateTime = currentTime.toLocalDateTime();
 
-            // Set properties from the request object
             actor.setFirstName(actorToSave.getFirstName());
             actor.setSecondName(actorToSave.getSecondName());
             actor.setLastUpdate(localDateTime);
 
-            // Save the actor to the database
             actorRepositoryJPA.save(actor);
 
-            // Prepare and return the response
             ResponseActor responseActor = new ResponseActor();
+            responseActor.setIdActor(actor.getIdActor().toString());
             responseActor.setFirstName(actor.getFirstName());
             responseActor.setSecondName(actor.getSecondName());
             responseActor.setLastUpdate(actor.getLastUpdate());

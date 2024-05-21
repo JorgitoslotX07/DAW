@@ -41,7 +41,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 //@Controller
 @RestController
-@RequestMapping("/{tipusBD}")
 public class AppController {
 	
 	private static final Logger logger = LogManager.getLogger(AppController.class);
@@ -115,32 +114,26 @@ public class AppController {
 	}
 	
 
-	@PostMapping("/createActor")
+	@PostMapping("/{tipusBD}/createActor")
 	public ResponseEntity<ResponseActor> createActor(@PathVariable String tipusBD, @RequestBody RequestActor requestActor){
 		logger.debug("Inici mètode createUser, user rebut[{}]",requestActor);
 		
 		HashMap<String,String> validacions = new HashMap<>();
-		//Inicio les validacions dels diferents camps de l'objecte d'entrada
 		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-		// Validar los campos del objeto RequestActor
 		if (requestActor == null || requestActor.getFirstName() == null || requestActor.getFirstName().isBlank() ||
 				requestActor.getSecondName() == null || requestActor.getSecondName().isBlank()) {
 			return ResponseEntity.badRequest().build();
 		}
 
-		// Crear el objeto Actor a partir del RequestActor
 		Actor actor = new Actor();
 		actor.setFirstName(requestActor.getFirstName());
 		actor.setSecondName(requestActor.getSecondName());
 
-		// Llamar al servicio para crear el actor en la base de datos
 		ResponseActor createdActor = actorService.insertActorVariableBD(tipusBD, requestActor);;
 		
-
-		// Verificar si se creó correctamente
 		if (createdActor != null) {
 			logger.info("Actor creado correctamente en la base de datos");
 			return new ResponseEntity<>(createdActor, HttpStatus.CREATED);
@@ -148,44 +141,6 @@ public class AppController {
 			logger.error("Error al crear el actor en la base de datos");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
-/*
-		if(requestActor!=null) {
-			boolean valid = true;
-			if(requestActor.getFirstName()==null || requestActor.getFirstName().isEmpty() || requestActor.getFirstName().isBlank()) {
-				logger.warn("Error validant firstName actor rebut");
-				validacions.put("firstName", "El camp firstName és obligatori i no pot ser buit o espais");
-				valid = false;
-			}
-			if(requestActor.getSecondName()==null || requestActor.getSecondName().isEmpty() || requestActor.getSecondName().isBlank()) {
-				logger.warn("Error validant secondName actor rebut");
-				validacions.put("secondName", "El camp secondName és obligatori i no pot ser buit o espais");
-				valid = false;
-			}
-					
-			if(!valid) {
-				logger.warn("Error en alguna de les validacions, resposta bad request");
-				AppErrorResponse errorResponse = new AppErrorResponse(ErrorMessage.E001.name());
-				errorResponse.setDetails(validacions);
-			    return new ResponseEntity(errorResponse, errorResponse.getHttpCode());
-			}else {
-				logger.info("Usuari validat correctament, procedim a inserir-lo a BDD");
-				Actor actor = new Actor();
-				actor.setFirstName(requestActor.getFirstName());
-				actor.setSecondName(requestActor.getSecondName());
-				Actor u = actorService.createActor(actor);
-				if(u!=null) {
-					return ResponseEntity.ok(u);
-				}else {
-					AppErrorResponse errorResponse = new AppErrorResponse(ErrorMessage.E300.name());
-					return new ResponseEntity(errorResponse,errorResponse.getHttpCode());
-				}
-			}
-		}else {
-			validacions.put("actor", "Objecte actor totalment buit");
-			AppErrorResponse errorResponse = new AppErrorResponse(ErrorMessage.E001.name());
-			errorResponse.setDetails(validacions);
-		    return new ResponseEntity(errorResponse, errorResponse.getHttpCode());
-		}		*/
 	}
 	
 	@DeleteMapping("/deleteActor")
@@ -224,7 +179,7 @@ public class AppController {
 
 	@PostMapping("/insertMongo")
     public ResponseEntity<ResponseActor> insertMongo(@RequestBody RequestActor requestActor) {
-        // Lógica para insertar en MongoDB utilizando ActorService
+
         ResponseActor responseActor = actorService.insertMongoDB(requestActor);
         if (responseActor != null) {
             return new ResponseEntity<>(responseActor, HttpStatus.CREATED);
@@ -233,18 +188,25 @@ public class AppController {
         }
     }
 
-	@PostMapping("/newCategory")
+	@PostMapping("/{tipusBD}/newCategory")
     public ResponseEntity<ResponseCategory> newCategory(@PathVariable String tipusBD, @RequestBody RequestCategory requestCategory) {
-        // Lógica para insertar en MongoDB utilizando ActorService
+
 		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        ResponseCategory responseCategory = categoryService.newCategory(tipusBD, requestCategory);
-        if (responseCategory != null) {
-            return new ResponseEntity<>(responseCategory, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+		if (requestCategory != null && requestCategory.getName() != "") {		
+			ResponseCategory responseCategory = categoryService.newCategory(tipusBD, requestCategory);
+
+			if (responseCategory != null) {
+				
+				return new ResponseEntity<>(responseCategory, HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
     }
 }
