@@ -18,10 +18,14 @@ import daw.m3.uf6.objects.http.AppErrorResponse;
 import daw.m3.uf6.objects.http.ErrorMessage;
 import daw.m3.uf6.objects.http.RequestActor;
 import daw.m3.uf6.objects.http.RequestCategory;
+import daw.m3.uf6.objects.http.RequestCountry;
+import daw.m3.uf6.objects.http.RequestUpdateCountry;
 import daw.m3.uf6.objects.http.ResponseActor;
 import daw.m3.uf6.objects.http.ResponseCategory;
+import daw.m3.uf6.objects.http.ResponseCountry;
 import daw.m3.uf6.services.ActorService;
 import daw.m3.uf6.services.CategoryService;
+import daw.m3.uf6.services.CountryService;
 
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 
 //import daw.m3.uf6.repositories.impl.RepositoriJDBCImpl;;
@@ -50,6 +55,9 @@ public class AppController {
 
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	private CountryService countryService;
 	
 
 	//@Autowired
@@ -204,6 +212,60 @@ public class AppController {
 			} else {
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
+		} else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+    }
+
+	@PostMapping("/{tipusBD}/newCountry")
+    public ResponseEntity<Object> newCountry(@PathVariable String tipusBD, @RequestBody RequestCountry requestCountry) {
+
+		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Http Code 400: Error en el tipusBD rebut");
+			logger.error("Error en el tipusBD rebut");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error en el tipusBD rebut");
+		}
+
+		if (requestCountry == null || requestCountry.getNomPais() == null || requestCountry.getNomPais().toString().trim().isEmpty()) {
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Http Code 400: No s’ha rebut correctament el camp nomPais.");
+			logger.error("No s’ha rebut correctament el camp nomPais");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No s’ha rebut correctament el camp nomPais.");
+
+		}
+
+		ResponseCountry responseCountry = countryService.newCountry(tipusBD, requestCountry);
+
+		if (responseCountry != null) {
+			
+			return new ResponseEntity<>(responseCountry, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+    }
+
+	@PutMapping("/{tipusBD}/updateCountry")
+    public ResponseEntity<Object> updateCountry(@PathVariable String tipusBD, @RequestBody RequestUpdateCountry requestCountry) {
+
+		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Http Code 400: Error en el tipusBD rebut");
+			logger.error("Error en el tipusBD rebut");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error en el tipusBD rebut");
+		}
+
+		if (requestCountry == null || requestCountry.getNomPais() == null || requestCountry.getNomPais().toString().trim().isEmpty()) {
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Http Code 400: No s’ha rebut correctament el camp nomPais.");
+			logger.error("No s’ha rebut correctament el camp nomPais");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No s’ha rebut correctament el camp nomPais.");
+
+		}
+
+		ResponseCountry responseCountry = countryService.updateCountry(tipusBD, requestCountry);
+
+		if (responseCountry != null) {
+			
+			return new ResponseEntity<>(responseCountry, HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
