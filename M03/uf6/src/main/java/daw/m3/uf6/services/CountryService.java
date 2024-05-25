@@ -101,10 +101,12 @@ public class CountryService {
                 return responseCountry;
             } else {
                 logger.info("No se encontró ningún actor con el ID proporcionado.");
+                //Falta retornar l'error de country not found
                 return null;
             }
 
         } else if (tipusBD.equals("mongo")) {
+        	//No necessites validar si existeix un pais amb aquest nom abans, en tot cas, hauries de fer-ho al revés... si existeix i no té el mateix id, no puc actualitzar-lo.
             if (countryRepoMongo.existsByNomPais(requestCountry.getNomPais())) {
             
                 CountryMongoDB existingCountry = countryRepoMongo.findByIdPais(requestCountry.getIdPais());

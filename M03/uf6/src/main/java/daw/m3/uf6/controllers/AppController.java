@@ -219,6 +219,7 @@ public class AppController {
     }
 
 	@PostMapping("/{tipusBD}/newCountry")
+	//És millor especificar el tipus d'objecte que retornaràs en cas de que vagi bé de forma específica (ResponseCountry)
     public ResponseEntity<Object> newCountry(@PathVariable String tipusBD, @RequestBody RequestCountry requestCountry) {
 
 		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
@@ -246,6 +247,7 @@ public class AppController {
     }
 
 	@PutMapping("/{tipusBD}/updateCountry")
+	//És millor especificar el tipus d'objecte que retornaràs en cas de que vagi bé de forma específica (ResponseCountry)
     public ResponseEntity<Object> updateCountry(@PathVariable String tipusBD, @RequestBody RequestUpdateCountry requestCountry) {
 
 		if (!tipusBD.equals("jdbc") && !tipusBD.equals("jpa") && !tipusBD.equals("mongo")) {
